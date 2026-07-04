@@ -1,0 +1,330 @@
+[
+  {
+    "id": "su7_1",
+    "english": "1 Copyright © 2024 Gleim Publications, Inc.",
+    "arabic": "[ترجمة سياقية]: 1 Copyright © 2024 Gleim Publications, Inc.",
+    "keywords": [
+      "Copyright",
+      "Gleim Publications"
+    ]
+  },
+  {
+    "id": "su7_2",
+    "english": "All rights reserved.",
+    "arabic": "[ترجمة سياقية]: All rights reserved.",
+    "keywords": []
+  },
+  {
+    "id": "su7_3",
+    "english": "Duplication prohibited.",
+    "arabic": "[ترجمة سياقية]: Duplication prohibited.",
+    "keywords": [
+      "Duplication"
+    ]
+  },
+  {
+    "id": "su7_4",
+    "english": "Reward for information exposing violators.",
+    "arabic": "[ترجمة سياقية]: Reward for information exposing violators.",
+    "keywords": [
+      "Reward"
+    ]
+  },
+  {
+    "id": "su7_5",
+    "english": "Contact copyright@gleim.com.",
+    "arabic": "[ترجمة سياقية]: Contact copyright@gleim.com.",
+    "keywords": [
+      "Contact"
+    ]
+  },
+  {
+    "id": "su7_6",
+    "english": "Study Unit Seven Cost Management Concepts 7.1 Cost Management Terminology .......................................................................................",
+    "arabic": "[ترجمة سياقية]: Study Unit Seven Cost Management Concepts 7.1 Cost Management Terminology .......................................................................................",
+    "keywords": [
+      "Study Unit Seven Cost Management Concepts",
+      "Cost Management Terminology"
+    ]
+  },
+  {
+    "id": "su7_7",
+    "english": "2 7.2 Cost Behavior and Relevant Range ................................................................................",
+    "arabic": "[ترجمة سياقية]: 2 7.2 Cost Behavior and Relevant Range ................................................................................",
+    "keywords": [
+      "Cost Behavior",
+      "Relevant Range"
+    ]
+  },
+  {
+    "id": "su7_8",
+    "english": "5 7.3 Costing Techniques .........................................................................................................",
+    "arabic": "[ترجمة سياقية]: 5 7.3 Costing Techniques .........................................................................................................",
+    "keywords": [
+      "Costing Techniques"
+    ]
+  },
+  {
+    "id": "su7_9",
+    "english": "8 7.4 Absorption and Variable Costing .....................................................................................",
+    "arabic": "[ترجمة سياقية]: 8 7.4 Absorption and Variable Costing .....................................................................................",
+    "keywords": [
+      "Absorption",
+      "Variable Costing"
+    ]
+  },
+  {
+    "id": "su7_10",
+    "english": "11 This study unit is the first of five on cost management.",
+    "arabic": "[ترجمة سياقية]: 11 This study unit is the first of five on cost management.",
+    "keywords": []
+  },
+  {
+    "id": "su7_11",
+    "english": "The relative weight assigned to this major topic in Part 1 of the exam is 15%.",
+    "arabic": "[ترجمة سياقية]: The relative weight assigned to this major topic in Part 1 of the exam is 15%.",
+    "keywords": []
+  },
+  {
+    "id": "su7_12",
+    "english": "Thus, the CMA exam greatly emphasizes this area of study.",
+    "arabic": "[ترجمة سياقية]: Thus, the CMA exam greatly emphasizes this area of study.",
+    "keywords": []
+  },
+  {
+    "id": "su7_13",
+    "english": "The candidate will face many questions involving numerical calculations and others requiring a knowledge of cost terminology and the implications of cost management decisions.",
+    "arabic": "[ترجمة سياقية]: The candidate will face many questions involving numerical calculations and others requiring a knowledge of cost terminology and the implications of cost management decisions.",
+    "keywords": []
+  },
+  {
+    "id": "su7_14",
+    "english": "There is a strategic value in knowing cost information.",
+    "arabic": "[ترجمة سياقية]: There is a strategic value in knowing cost information.",
+    "keywords": []
+  },
+  {
+    "id": "su7_15",
+    "english": "For example, costs need to be known for pricing and overhead allocation purposes.",
+    "arabic": "[ترجمة سياقية]: For example, costs need to be known for pricing and overhead allocation purposes.",
+    "keywords": []
+  },
+  {
+    "id": "su7_16",
+    "english": "-- 1 of 20 -- 2 SU 7: Cost Management Concepts Copyright © 2024 Gleim Publications, Inc.",
+    "arabic": "[ترجمة سياقية]: -- 1 of 20 -- 2 SU 7: Cost Management Concepts Copyright © 2024 Gleim Publications, Inc.",
+    "keywords": [
+      "Cost Management Concepts Copyright",
+      "Gleim Publications"
+    ]
+  },
+  {
+    "id": "su7_17",
+    "english": "All rights reserved.",
+    "arabic": "[ترجمة سياقية]: All rights reserved.",
+    "keywords": []
+  },
+  {
+    "id": "su7_18",
+    "english": "Duplication prohibited.",
+    "arabic": "[ترجمة سياقية]: Duplication prohibited.",
+    "keywords": [
+      "Duplication"
+    ]
+  },
+  {
+    "id": "su7_19",
+    "english": "Reward for information exposing violators.",
+    "arabic": "[ترجمة سياقية]: Reward for information exposing violators.",
+    "keywords": [
+      "Reward"
+    ]
+  },
+  {
+    "id": "su7_20",
+    "english": "Contact copyright@gleim.com.",
+    "arabic": "[ترجمة سياقية]: Contact copyright@gleim.com.",
+    "keywords": [
+      "Contact"
+    ]
+  },
+  {
+    "id": "su7_21",
+    "english": "7.1 Cost Management Terminology Subdisciplines of Accounting Financial accounting is concerned principally with reporting to external users, usually through a set of financial statements produced in accordance with GAAP.",
+    "arabic": "[ترجمة سياقية]: 7.1 Cost Management Terminology Subdisciplines of Accounting Financial accounting is concerned principally with reporting to external users, usually through a set of financial statements produced in accordance with GAAP.",
+    "keywords": [
+      "Cost Management Terminology Subdisciplines",
+      "Accounting Financial"
+    ]
+  },
+  {
+    "id": "su7_22",
+    "english": "Financial accounting has a historical focus.",
+    "arabic": "[ترجمة سياقية]: Financial accounting has a historical focus.",
+    "keywords": [
+      "Financial"
+    ]
+  },
+  {
+    "id": "su7_23",
+    "english": "Management accounting is concerned principally with reporting to internal users.",
+    "arabic": "[ترجمة سياقية]: Management accounting is concerned principally with reporting to internal users.",
+    "keywords": [
+      "Management"
+    ]
+  },
+  {
+    "id": "su7_24",
+    "english": "The management accountant’s goal is to produce reports that improve organizational decision making.",
+    "arabic": "[ترجمة سياقية]: The management accountant’s goal is to produce reports that improve organizational decision making.",
+    "keywords": []
+  },
+  {
+    "id": "su7_25",
+    "english": "Management accounting is future-oriented.",
+    "arabic": "[ترجمة سياقية]: Management accounting is future-oriented.",
+    "keywords": [
+      "Management"
+    ]
+  },
+  {
+    "id": "su7_26",
+    "english": "Cost accounting supports both financial and management accounting.",
+    "arabic": "[ترجمة سياقية]: Cost accounting supports both financial and management accounting.",
+    "keywords": []
+  },
+  {
+    "id": "su7_27",
+    "english": "Information about the cost of resources acquired and consumed by an organization underlies effective reporting for both external and internal users.",
+    "arabic": "[ترجمة سياقية]: Information about the cost of resources acquired and consumed by an organization underlies effective reporting for both external and internal users.",
+    "keywords": [
+      "Information"
+    ]
+  },
+  {
+    "id": "su7_28",
+    "english": "● In financial accounting, costing information is used to account for cost of goods sold and inventory in external financial reports.",
+    "arabic": "[ترجمة سياقية]: ● In financial accounting, costing information is used to account for cost of goods sold and inventory in external financial reports.",
+    "keywords": []
+  },
+  {
+    "id": "su7_29",
+    "english": "● In managerial accounting, costing information is used to make decisions about costs, production, budgeting, and pricing.",
+    "arabic": "[ترجمة سياقية]: ● In managerial accounting, costing information is used to make decisions about costs, production, budgeting, and pricing.",
+    "keywords": []
+  },
+  {
+    "id": "su7_30",
+    "english": "Basic Cost Definitions A cost is defined by the IMA in two senses: ● “In financial accounting, the sacrifice measured by the price paid or required to be paid to acquire goods or services.",
+    "arabic": "[ترجمة سياقية]: Basic Cost Definitions A cost is defined by the IMA in two senses: ● “In financial accounting, the sacrifice measured by the price paid or required to be paid to acquire goods or services.",
+    "keywords": [
+      "Basic Cost Definitions"
+    ]
+  },
+  {
+    "id": "su7_31",
+    "english": "The term ‘cost’ is often used when referring to the valuation of a good or service acquired.",
+    "arabic": "[ترجمة سياقية]: The term ‘cost’ is often used when referring to the valuation of a good or service acquired.",
+    "keywords": []
+  },
+  {
+    "id": "su7_32",
+    "english": "When ‘cost’ is used in this sense, a cost is an asset.",
+    "arabic": "[ترجمة سياقية]: When ‘cost’ is used in this sense, a cost is an asset.",
+    "keywords": []
+  },
+  {
+    "id": "su7_33",
+    "english": "When the benefits of the acquisition (the goods or services) expire, the cost becomes an expense or loss.” ● “In management accounting, a measurement in monetary terms of the amount of resources used for some purpose.",
+    "arabic": "[ترجمة سياقية]: When the benefits of the acquisition (the goods or services) expire, the cost becomes an expense or loss.” ● “In management accounting, a measurement in monetary terms of the amount of resources used for some purpose.",
+    "keywords": []
+  },
+  {
+    "id": "su7_34",
+    "english": "The term by itself is not operational.",
+    "arabic": "[ترجمة سياقية]: The term by itself is not operational.",
+    "keywords": []
+  },
+  {
+    "id": "su7_35",
+    "english": "It becomes operational when modified by a term that defines the purpose, such as acquisition cost, incremental cost, or fixed cost.” A cost object is any object to which costs can be attached.",
+    "arabic": "[ترجمة سياقية]: It becomes operational when modified by a term that defines the purpose, such as acquisition cost, incremental cost, or fixed cost.” A cost object is any object to which costs can be attached.",
+    "keywords": []
+  },
+  {
+    "id": "su7_36",
+    "english": "Examples are products, processes, employees, departments, and facilities.",
+    "arabic": "[ترجمة سياقية]: Examples are products, processes, employees, departments, and facilities.",
+    "keywords": [
+      "Examples"
+    ]
+  },
+  {
+    "id": "su7_37",
+    "english": "A cost driver is the basis used to assign costs to a cost object.",
+    "arabic": "[ترجمة سياقية]: A cost driver is the basis used to assign costs to a cost object.",
+    "keywords": []
+  },
+  {
+    "id": "su7_38",
+    "english": "In other words, a cost driver is some event that causes costs to occur.",
+    "arabic": "[ترجمة سياقية]: In other words, a cost driver is some event that causes costs to occur.",
+    "keywords": []
+  },
+  {
+    "id": "su7_39",
+    "english": "-- 2 of 20 -- SU 7: Cost Management Concepts 3 Copyright © 2024 Gleim Publications, Inc.",
+    "arabic": "[ترجمة سياقية]: -- 2 of 20 -- SU 7: Cost Management Concepts 3 Copyright © 2024 Gleim Publications, Inc.",
+    "keywords": [
+      "Cost Management Concepts",
+      "Copyright",
+      "Gleim Publications"
+    ]
+  },
+  {
+    "id": "su7_40",
+    "english": "All rights reserved.",
+    "arabic": "[ترجمة سياقية]: All rights reserved.",
+    "keywords": []
+  },
+  {
+    "id": "su7_41",
+    "english": "Duplication prohibited.",
+    "arabic": "[ترجمة سياقية]: Duplication prohibited.",
+    "keywords": [
+      "Duplication"
+    ]
+  },
+  {
+    "id": "su7_42",
+    "english": "Reward for information exposing violators.",
+    "arabic": "[ترجمة سياقية]: Reward for information exposing violators.",
+    "keywords": [
+      "Reward"
+    ]
+  },
+  {
+    "id": "su7_43",
+    "english": "Contact copyright@gleim.com.",
+    "arabic": "[ترجمة سياقية]: Contact copyright@gleim.com.",
+    "keywords": [
+      "Contact"
+    ]
+  },
+  {
+    "id": "su7_44",
+    "english": "Indirect Costs can be classified by how they are assigned to cost objects.",
+    "arabic": "[ترجمة سياقية]: Indirect Costs can be classified by how they are assigned to cost objects.",
+    "keywords": [
+      "Indirect Costs"
+    ]
+  },
+  {
+    "id": "su7_45",
+    "english": "Direct costs are costs that can be associated with a particular cost object in an economically feasible way, i.e., they can be traced to that object.",
+    "arabic": "[ترجمة سياقية]: Direct costs are costs that can be associated with a particular cost object in an economically feasible way, i.e., they can be traced to that object.",
+    "keywords": [
+      "Direct"
+    ]
+  }
+]

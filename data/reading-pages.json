@@ -1,0 +1,110 @@
+[
+  {
+    "id": "cma-part1-p001",
+    "pageNumber": 136,
+    "title": "Cost Behavior Foundations",
+    "sourceLabel": "CMA Part 1 - 2025 English Edition",
+    "sentences": [
+      {
+        "id": "p001-s001",
+        "text": "Absorption Costing assigns all manufacturing costs to inventory, including direct materials, direct labor, variable manufacturing overhead, and fixed manufacturing overhead.",
+        "translation": "التكاليف التحميلية تحمل كل تكاليف التصنيع على المخزون، بما في ذلك المواد المباشرة، والعمل المباشر، والتكاليف الصناعية غير المباشرة المتغيرة والثابتة.",
+        "context": "انتبه لعبارة all manufacturing costs لأنها تعني أن التكاليف الصناعية الثابتة تدخل ضمن تكلفة المنتج وليست مصروف فترة.",
+        "termIds": ["absorption-costing"]
+      },
+      {
+        "id": "p001-s002",
+        "text": "In exam wording, pay attention to whether the question asks for product cost, period cost, or operating income.",
+        "translation": "في صياغة الامتحان، ركز هل السؤال يطلب تكلفة المنتج، أو مصروفات الفترة، أو الدخل التشغيلي.",
+        "context": "هذه الجملة تمثل فخا شائعا لأن تغيير طريقة تحميل المخزون يؤثر على operating income عند تغير مستويات المخزون.",
+        "termIds": ["operating-income"]
+      },
+      {
+        "id": "p001-s003",
+        "text": "Activity-Based Costing (ABC) uses an Activity Driver (Cost Driver) to trace overhead to products or services.",
+        "translation": "نظام التكلفة على أساس النشاط يستخدم مسبب نشاط أو مسبب تكلفة لتتبع المصروفات غير المباشرة إلى المنتجات أو الخدمات.",
+        "context": "كلمة trace أقوى من allocate؛ فهي تشير إلى علاقة سببية بين النشاط والتكلفة.",
+        "termIds": ["activity-based-costing-abc", "activity-driver-cost-driver"]
+      },
+      {
+        "id": "p001-s004",
+        "text": "The Allocation Base should have a clear cause-and-effect relationship with the activity consuming resources.",
+        "translation": "يجب أن يكون أساس التخصيص مرتبطا بعلاقة سبب ونتيجة واضحة مع النشاط الذي يستهلك الموارد.",
+        "context": "إذا كان السؤال يطلب أفضل allocation base، ابحث عن المقياس الذي يسبب التكلفة فعلا لا مجرد رقم سهل القياس.",
+        "termIds": ["allocation-base"]
+      }
+    ]
+  },
+  {
+    "id": "cma-part1-p002",
+    "pageNumber": 30,
+    "title": "Working Capital Language",
+    "sourceLabel": "CMA Part 1 - 2025 English Edition",
+    "sentences": [
+      {
+        "id": "p002-s001",
+        "text": "Accounts Receivable represents amounts customers owe the entity.",
+        "translation": "تمثل الذمم المدينة المبالغ التي يدين بها العملاء للمنشأة.",
+        "context": "كلمة owe هنا تعني مستحق على العميل وليس مبلغا دفعته الشركة.",
+        "termIds": ["accounts-receivable"]
+      },
+      {
+        "id": "p002-s002",
+        "text": "Accounts Receivable Turnover measures how effectively the company converts credit sales into cash collections.",
+        "translation": "يقيس معدل دوران الذمم المدينة مدى كفاءة الشركة في تحويل المبيعات الآجلة إلى تحصيلات نقدية.",
+        "context": "اربط turnover بسرعة التحصيل؛ ارتفاعه غالبا يعني تحصيلا أسرع إذا لم تكن سياسة الائتمان متشددة جدا.",
+        "termIds": ["accounts-receivable-turnover"]
+      },
+      {
+        "id": "p002-s003",
+        "text": "The Acid-Test Ratio excludes inventory from current assets.",
+        "translation": "تستبعد نسبة السيولة السريعة المخزون من الأصول المتداولة.",
+        "context": "excludes inventory هي إشارة مباشرة إلى quick ratio لأنها تركز على الأصول الأقرب للتحول إلى نقد.",
+        "termIds": ["acid-test-ratio"]
+      },
+      {
+        "id": "p002-s004",
+        "text": "If a question stresses immediate liquidity or the most liquid current assets, it is usually pointing toward the quick ratio rather than the current ratio.",
+        "translation": "إذا أكد السؤال على السيولة الفورية أو أكثر الأصول المتداولة سيولة، فهو غالبا يشير إلى النسبة السريعة بدلا من نسبة التداول.",
+        "context": "عبارات immediate وmost liquid من كلمات الامتحان التي تغير الاختيار الصحيح بين current ratio وquick ratio.",
+        "termIds": ["acid-test-ratio"]
+      }
+    ]
+  },
+  {
+    "id": "cma-part1-p003",
+    "pageNumber": 5,
+    "title": "Reporting and Accruals",
+    "sourceLabel": "CMA Part 1 - 2025 English Edition",
+    "sentences": [
+      {
+        "id": "p003-s001",
+        "text": "Accrual Accounting recognizes revenues when earned and expenses when incurred, regardless of when cash is received or paid.",
+        "translation": "تعترف المحاسبة على أساس الاستحقاق بالإيرادات عند اكتسابها وبالمصروفات عند تحملها، بغض النظر عن توقيت قبض أو دفع النقد.",
+        "context": "earned وincurred هما كلمتا المفتاح؛ لا تجعل cash received أو cash paid تغير منطق الاعتراف.",
+        "termIds": ["accrual-accounting"]
+      },
+      {
+        "id": "p003-s002",
+        "text": "This is a common source of trap wording in questions that mix cash flow with income measurement.",
+        "translation": "هذا مصدر شائع لصياغة مضللة في الأسئلة التي تخلط بين التدفق النقدي وقياس الدخل.",
+        "context": "عند رؤية cash flow وincome في نفس السؤال، حدد أولا هل المطلوب أساس نقدي أم أساس استحقاق.",
+        "termIds": ["cash-flow"]
+      },
+      {
+        "id": "p003-s003",
+        "text": "Accounting Profit is revenue minus expenses reported under accounting rules.",
+        "translation": "الربح المحاسبي هو الإيرادات مطروحا منها المصروفات وفقا لقواعد المحاسبة.",
+        "context": "لا تضف opportunity cost إلى accounting profit إلا إذا طلب السؤال economic profit.",
+        "termIds": ["accounting-profit"]
+      },
+      {
+        "id": "p003-s004",
+        "text": "Accounting Standards provide the principles and procedures used to prepare financial reports.",
+        "translation": "توفر المعايير المحاسبية المبادئ والإجراءات المستخدمة لإعداد التقارير المالية.",
+        "context": "standards في أسئلة CMA غالبا ترتبط بالاتساق، والقابلية للمقارنة، وموثوقية التقارير.",
+        "termIds": ["accounting-standards"]
+      }
+    ]
+  }
+]

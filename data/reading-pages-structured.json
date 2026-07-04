@@ -1,0 +1,93 @@
+[
+  {
+    "page_number": 136,
+    "title": "Cost Behavior Foundations",
+    "content": [
+      {
+        "sentence_id": "p136_s1",
+        "english_text": "Absorption Costing assigns all manufacturing costs to inventory, including direct materials, direct labor, variable manufacturing overhead, and fixed manufacturing overhead.",
+        "arabic_text": "تحمل التكلفة المستوعبة جميع تكاليف التصنيع على المخزون، بما في ذلك المواد المباشرة، والعمل المباشر، والتكاليف الصناعية غير المباشرة المتغيرة والثابتة.",
+        "keywords": [
+          { "en": "Absorption Costing", "ar": "التكلفة المستوعبة" },
+          { "en": "manufacturing costs", "ar": "تكاليف التصنيع" },
+          { "en": "fixed manufacturing overhead", "ar": "التكاليف الصناعية غير المباشرة الثابتة" }
+        ]
+      },
+      {
+        "sentence_id": "p136_s2",
+        "english_text": "In exam wording, pay attention to whether the question asks for product cost, period cost, or operating income.",
+        "arabic_text": "في صياغة أسئلة الامتحان، انتبه جيداً لما إذا كان السؤال يطلب تكلفة المنتج، أو تكلفة الفترة، أو صافي الدخل التشغيلي.",
+        "keywords": [
+          { "en": "product cost", "ar": "تكلفة المنتج" },
+          { "en": "period cost", "ar": "تكلفة الفترة" },
+          { "en": "operating income", "ar": "الدخل التشغيلي" }
+        ]
+      },
+      {
+        "sentence_id": "p136_s3",
+        "english_text": "Activity-Based Costing (ABC) uses an Activity Driver (Cost Driver) to trace overhead to products or services.",
+        "arabic_text": "نظام التكلفة على أساس النشاط (ABC) يستخدم مسبب نشاط (مسبب تكلفة) لتتبع المصاريف غير المباشرة بدقة وتخصيصها للمنتجات أو الخدمات.",
+        "keywords": [
+          { "en": "Activity-Based Costing (ABC)", "ar": "التكلفة على أساس النشاط" },
+          { "en": "Activity Driver (Cost Driver)", "ar": "مسبب النشاط (مسبب التكلفة)" }
+        ]
+      }
+    ]
+  },
+  {
+    "page_number": 30,
+    "title": "Working Capital Language",
+    "content": [
+      {
+        "sentence_id": "p30_s1",
+        "english_text": "Accounts Receivable represents amounts customers owe the entity.",
+        "arabic_text": "تمثل حسابات الذمم المدينة (العملاء) المبالغ المستحقة على العملاء لصالح المنشأة.",
+        "keywords": [
+          { "en": "Accounts Receivable", "ar": "حسابات الذمم المدينة" }
+        ]
+      },
+      {
+        "sentence_id": "p30_s2",
+        "english_text": "Accounts Receivable Turnover measures how effectively the company converts credit sales into cash collections.",
+        "arabic_text": "يقيس معدل دوران الذمم المدينة مدى كفاءة وفعالية الشركة في تحويل المبيعات الآجلة إلى تحصيلات نقدية.",
+        "keywords": [
+          { "en": "Accounts Receivable Turnover", "ar": "معدل دوران الذمم المدينة" },
+          { "en": "credit sales", "ar": "المبيعات الآجلة" }
+        ]
+      },
+      {
+        "sentence_id": "p30_s3",
+        "english_text": "The Acid-Test Ratio excludes inventory from current assets.",
+        "arabic_text": "تستبعد نسبة السيولة السريعة (Acid-Test Ratio) المخزون من الأصول المتداولة لتقديم قياس أكثر تحفظاً للسيولة.",
+        "keywords": [
+          { "en": "Acid-Test Ratio", "ar": "نسبة السيولة السريعة" }
+        ]
+      }
+    ]
+  },
+  {
+    "page_number": 5,
+    "title": "Reporting and Accruals",
+    "content": [
+      {
+        "sentence_id": "p5_s1",
+        "english_text": "Accrual Accounting recognizes revenues when earned and expenses when incurred, regardless of when cash is received or paid.",
+        "arabic_text": "تعترف المحاسبة على أساس الاستحقاق بالإيرادات عند اكتسابها وبالمصروفات عند تحققها وتحملها، بغض النظر عن توقيت استلام أو دفع النقد.",
+        "keywords": [
+          { "en": "Accrual Accounting", "ar": "المحاسبة على أساس الاستحقاق" },
+          { "en": "revenues", "ar": "الإيرادات" },
+          { "en": "expenses", "ar": "المصروفات" }
+        ]
+      },
+      {
+        "sentence_id": "p5_s2",
+        "english_text": "This is a common source of trap wording in questions that mix cash flow with income measurement.",
+        "arabic_text": "هذا المبدأ يمثل مصدراً شائعاً للأفخاخ وصيغ الأسئلة المضللة التي تخلط بين التدفق النقدي وقياس الدخل المحاسبي.",
+        "keywords": [
+          { "en": "cash flow", "ar": "التدفق النقدي" },
+          { "en": "income measurement", "ar": "قياس الدخل" }
+        ]
+      }
+    ]
+  }
+]

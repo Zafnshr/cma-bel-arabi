@@ -1,0 +1,26 @@
+[
+  {
+    "id": "su1_1",
+    "english": "External Financial Statements",
+    "arabic": "البيانات المالية الخارجية",
+    "keywords": ["External Financial Statements"]
+  },
+  {
+    "id": "su1_2",
+    "english": "Study Unit One",
+    "arabic": "الوحدة الدراسية الأولى",
+    "keywords": ["Study Unit"]
+  },
+  {
+    "id": "su1_3",
+    "english": "Concepts of Financial Accounting",
+    "arabic": "مفاهيم المحاسبة المالية",
+    "keywords": ["Financial Accounting"]
+  },
+  {
+    "id": "su1_4",
+    "english": "Statement of Financial Position",
+    "arabic": "قائمة المركز المالي",
+    "keywords": ["Financial Position"]
+  }
+]

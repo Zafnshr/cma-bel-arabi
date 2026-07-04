@@ -1,0 +1,53 @@
+[
+  {
+    "id": "cost-behavior-foundations",
+    "title": "Cost Behavior Foundations",
+    "part": "CMA Part 1",
+    "estimatedMinutes": 25,
+    "summary": "Read CMA phrasing around how costs are assigned, absorbed, and analyzed before answering calculation-heavy questions.",
+    "paragraphs": [
+      "Absorption Costing assigns all manufacturing costs to inventory, including direct materials, direct labor, variable manufacturing overhead, and fixed manufacturing overhead. In exam wording, pay attention to whether the question asks for product cost, period cost, or operating income.",
+      "Activity-Based Costing (ABC) uses an Activity Driver (Cost Driver) to trace overhead to products or services. The Allocation Base should have a clear cause-and-effect relationship with the activity consuming resources.",
+      "Abnormal Spoilage is usually treated differently from normal spoilage because it is not expected under efficient operating conditions. When the exam asks for avoidable waste, look for wording that separates unusual loss from routine production loss."
+    ],
+    "keyTakeaways": [
+      "Absorption Costing includes fixed manufacturing overhead in inventory.",
+      "Activity-Based Costing focuses on activities and their drivers.",
+      "Abnormal Spoilage usually signals avoidable loss."
+    ]
+  },
+  {
+    "id": "working-capital-language",
+    "title": "Working Capital Language",
+    "part": "CMA Part 1",
+    "estimatedMinutes": 20,
+    "summary": "Practice the English wording used in liquidity and receivables questions before moving into ratio calculations.",
+    "paragraphs": [
+      "Accounts Receivable represents amounts customers owe the entity. Accounts Receivable Turnover measures how effectively the company converts credit sales into cash collections.",
+      "Accounts Payable represents amounts owed to suppliers. Accounts Payable Turnover can indicate how quickly a company pays vendors, but the interpretation depends on supplier terms and cash management policy.",
+      "The Acid-Test Ratio excludes inventory from current assets. If a question stresses immediate liquidity or the most liquid current assets, it is usually pointing toward the quick ratio rather than the current ratio."
+    ],
+    "keyTakeaways": [
+      "Receivable turnover connects credit sales to collection speed.",
+      "Payable turnover connects purchases or cost of sales to payment speed.",
+      "Acid-Test Ratio is stricter than the current ratio."
+    ]
+  },
+  {
+    "id": "reporting-and-accruals",
+    "title": "Reporting and Accruals",
+    "part": "CMA Part 1",
+    "estimatedMinutes": 18,
+    "summary": "Review the core reporting vocabulary that appears in conceptual and scenario-based CMA questions.",
+    "paragraphs": [
+      "Accrual Accounting recognizes revenues when earned and expenses when incurred, regardless of when cash is received or paid. This is a common source of trap wording in questions that mix cash flow with income measurement.",
+      "Accounting Profit is revenue minus expenses reported under accounting rules. It may differ from economic profit because economic profit includes opportunity costs.",
+      "Accounting Standards provide the principles and procedures used to prepare financial reports. In CMA questions, standards language often signals consistency, comparability, and reliability."
+    ],
+    "keyTakeaways": [
+      "Accrual Accounting separates timing of recognition from timing of cash.",
+      "Accounting Profit follows accounting rules, not economic opportunity-cost logic.",
+      "Accounting Standards support consistent reporting."
+    ]
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "mcq-cost-001",
+    "unitId": "cost-behavior-foundations",
+    "question": "A company uses Activity-Based Costing (ABC). Which item is the best Allocation Base for assigning machine setup costs?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Number of machine setups"
+      },
+      {
+        "id": "B",
+        "text": "Direct labor cost"
+      },
+      {
+        "id": "C",
+        "text": "Finished goods inventory balance"
+      },
+      {
+        "id": "D",
+        "text": "Accounts Receivable Turnover"
+      }
+    ],
+    "correctOptionId": "A",
+    "explanation": "The allocation base should reflect the activity that causes the setup cost. Number of machine setups is the strongest cost driver."
+  },
+  {
+    "id": "mcq-cost-002",
+    "unitId": "cost-behavior-foundations",
+    "question": "Under Absorption Costing, which cost is included in product cost?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Fixed manufacturing overhead"
+      },
+      {
+        "id": "B",
+        "text": "Selling expense"
+      },
+      {
+        "id": "C",
+        "text": "Administrative Expense"
+      },
+      {
+        "id": "D",
+        "text": "Interest expense"
+      }
+    ],
+    "correctOptionId": "A",
+    "explanation": "Absorption costing attaches both variable and fixed manufacturing overhead to inventory as product cost."
+  },
+  {
+    "id": "mcq-liquidity-001",
+    "unitId": "working-capital-language",
+    "question": "Which ratio is designed to measure immediate liquidity by excluding inventory from current assets?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Acid-Test Ratio"
+      },
+      {
+        "id": "B",
+        "text": "Accounts Payable Turnover"
+      },
+      {
+        "id": "C",
+        "text": "Accounting Profit"
+      },
+      {
+        "id": "D",
+        "text": "Absorbed Overhead"
+      }
+    ],
+    "correctOptionId": "A",
+    "explanation": "The acid-test ratio, also called the quick ratio, focuses on the most liquid current assets."
+  },
+  {
+    "id": "mcq-accrual-001",
+    "unitId": "reporting-and-accruals",
+    "question": "Accrual Accounting requires revenue to be recognized when it is:",
+    "options": [
+      {
+        "id": "A",
+        "text": "Earned, even if cash has not yet been received"
+      },
+      {
+        "id": "B",
+        "text": "Collected in cash only"
+      },
+      {
+        "id": "C",
+        "text": "Approved by Accounts Payable"
+      },
+      {
+        "id": "D",
+        "text": "Reported as Abnormal Spoilage"
+      }
+    ],
+    "correctOptionId": "A",
+    "explanation": "Accrual accounting separates earning revenue from collecting cash."
+  }
+]

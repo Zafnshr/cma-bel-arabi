@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FDFBF7;
+  --foreground: #1E1E24;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    var(--font-geist-sans), "Segoe UI", Tahoma, Arial, ui-sans-serif,
+    system-ui, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.ltr-content {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+.rtl-content {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: isolate;
+}
+
+.sentence-hotspot {
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Structured DOM Reader selection highlight */
+::selection {
+  background: #fde68a;
+  color: #1e1e24;
+}
+
+/* Dual-Layer Hybrid PDF Renderer text-layer overlay */
+.react-pdf__Page {
+  position: relative !important;
+}
+
+.react-pdf__Page__textContent {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+.react-pdf__Page__textContent span {
+  color: transparent !important; /* Make overlay text invisible */
+  pointer-events: auto !important;
+  cursor: help;
+  transition: background-color 150ms ease;
+}
+
+.react-pdf__Page__textContent span::selection {
+  background: rgba(253, 230, 138, 0.4) !important;
+}
+
+.react-pdf__Page__canvas {
+  display: block;
+  z-index: 1 !important;
+}
