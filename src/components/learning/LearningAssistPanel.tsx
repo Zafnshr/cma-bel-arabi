@@ -99,15 +99,11 @@ export function LearningAssistPanel({
       </div>
 
       {/* Footer — compact */}
-      <div className="shrink-0 border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-[11px] leading-5 text-slate-400">
-        <p>
-          تم تحميل {totalTerms.toLocaleString("ar-EG")} مصطلح من{" "}
-          {source.label}.
-        </p>
-        {source.warning ? (
-          <p className="mt-0.5 font-medium text-amber-700 text-[11px]">{source.warning}</p>
-        ) : null}
-      </div>
+      {source.warning && (
+        <div className="shrink-0 border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-[11px] leading-5 text-slate-400">
+          <p className="font-medium text-amber-700 text-[11px]">{source.warning}</p>
+        </div>
+      )}
     </div>
   );
 }

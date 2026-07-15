@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect, useRef, useCallback, MouseEvent } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ChevronLeft, ChevronRight, FileText, PanelRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, FileText, PanelRight, ZoomIn, ZoomOut, Bookmark, BookmarkCheck } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -204,16 +204,39 @@ export function PdfReadingWorkspace({
   const pdfColumnRef = useRef<HTMLDivElement>(null);
   const [pageWidth, setPageWidth] = useState<number>(900);
 
+  const [zoomLevel, setZoomLevel] = useState(1.0);
+  const [bookmarkedPage, setBookmarkedPage] = useState<number | null>(null);
+
   const selectedUnit = useMemo(() => {
     return STUDY_UNITS.find((u) => `SU${u.id}` === chapterId) ?? STUDY_UNITS[0];
   }, [chapterId]);
 
-  // Reset on chapter change
+  // Reset and load bookmark on chapter change
   useEffect(() => {
-    setActivePageNumber(1);
+    const bookmarks = JSON.parse(localStorage.getItem('pdfBookmarks') || '{}');
+    if (bookmarks[chapterId]) {
+      setActivePageNumber(bookmarks[chapterId]);
+      setBookmarkedPage(bookmarks[chapterId]);
+    } else {
+      setActivePageNumber(1);
+      setBookmarkedPage(null);
+    }
     setSelectedAssistItem(undefined);
     activeSentenceIdRef.current = null;
+    setZoomLevel(1.0);
   }, [chapterId]);
+
+  const toggleBookmark = () => {
+    const bookmarks = JSON.parse(localStorage.getItem('pdfBookmarks') || '{}');
+    if (bookmarkedPage === activePageNumber) {
+      delete bookmarks[chapterId];
+      setBookmarkedPage(null);
+    } else {
+      bookmarks[chapterId] = activePageNumber;
+      setBookmarkedPage(activePageNumber);
+    }
+    localStorage.setItem('pdfBookmarks', JSON.stringify(bookmarks));
+  };
 
   // ResizeObserver for dynamic page width
   useEffect(() => {
@@ -373,6 +396,43 @@ export function PdfReadingWorkspace({
 
             <div className="h-5 w-px bg-slate-200 mx-0.5" />
 
+            {/* Zoom Controls */}
+            <button
+              type="button"
+              onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 2.0))}
+              className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
+              title="تكبير"
+            >
+              <ZoomIn size={15} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.5))}
+              className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
+              title="تصغير"
+            >
+              <ZoomOut size={15} />
+            </button>
+
+            <div className="h-5 w-px bg-slate-200 mx-0.5" />
+
+            {/* Bookmark Control */}
+            <button
+              type="button"
+              onClick={toggleBookmark}
+              className={cx(
+                "flex size-8 items-center justify-center rounded-lg border transition-all shadow-sm",
+                bookmarkedPage === activePageNumber 
+                  ? "border-emerald-300 bg-emerald-50 text-emerald-600" 
+                  : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+              )}
+              title={bookmarkedPage === activePageNumber ? "إلغاء العلامة المرجعية" : "حفظ هذه الصفحة كعلامة مرجعية"}
+            >
+              {bookmarkedPage === activePageNumber ? <BookmarkCheck size={15} /> : <Bookmark size={15} />}
+            </button>
+
+            <div className="h-5 w-px bg-slate-200 mx-0.5" />
+
             <button
               type="button"
               onClick={() => goToAdjacentPage(-1)}
@@ -382,10 +442,35 @@ export function PdfReadingWorkspace({
             >
               <ChevronLeft aria-hidden="true" size={15} />
             </button>
-            <span className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm">
-              صفحة {activePageNumber.toLocaleString("ar-EG")} من{" "}
-              {numPages.toLocaleString("ar-EG")}
-            </span>
+            <div className="flex items-center rounded-lg border border-slate-200 bg-white px-2 py-1 shadow-sm text-xs font-semibold text-slate-800">
+              صفحة 
+              <input 
+                type="number"
+                min={1}
+                max={numPages}
+                defaultValue={activePageNumber}
+                key={activePageNumber}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    let val = parseInt((e.target as HTMLInputElement).value);
+                    if (!isNaN(val) && val >= 1 && val <= numPages) {
+                      setActivePageNumber(val);
+                      setSelectedAssistItem(undefined);
+                      activeSentenceIdRef.current = null;
+                    }
+                  }
+                }}
+                onBlur={(e) => {
+                   let val = parseInt(e.target.value);
+                   if (!isNaN(val) && val >= 1 && val <= numPages) {
+                      setActivePageNumber(val);
+                   }
+                   e.target.value = activePageNumber.toString();
+                }}
+                className="w-12 mx-1.5 text-center bg-slate-50 border border-slate-200 rounded text-slate-900 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              />
+              من {numPages.toLocaleString("ar-EG")}
+            </div>
             <button
               type="button"
               onClick={() => goToAdjacentPage(1)}
@@ -419,6 +504,7 @@ export function PdfReadingWorkspace({
               <Page
                 pageNumber={activePageNumber}
                 width={pageWidth}
+                scale={zoomLevel}
                 renderTextLayer={true}
                 renderAnnotationLayer={false}
                 onRenderSuccess={handlePageRenderSuccess}

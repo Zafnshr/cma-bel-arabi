@@ -32,12 +32,6 @@ export default async function DashboardPage() {
       href: "/study/flashcards",
       icon: Layers3,
     },
-    {
-      title: "حل اختبار قصير",
-      detail: "أجب على أسئلة الوحدة مع مساعد المصطلحات.",
-      href: "/simulator",
-      icon: ClipboardCheck,
-    },
   ];
 
   return (
@@ -62,8 +56,8 @@ export default async function DashboardPage() {
             tone="slate"
           />
           <MetricCard
-            label="سؤال تدريب"
-            value={data.mcqs.length.toLocaleString("ar-EG")}
+            label="سؤال تدريب (قريباً)"
+            value="--"
             icon={ClipboardCheck}
             tone="emerald"
           />

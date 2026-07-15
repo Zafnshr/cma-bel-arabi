@@ -1,8 +1,26 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
-import { MoonStar, Clock, BookHeart, MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
+import { MoonStar, Clock, BookHeart, MapPin, RefreshCw } from "lucide-react";
 import { cx } from "@/lib/utils";
+
+function formatTime12(time24?: string) {
+  if (!time24) return "--:--";
+  const time = time24.split(' ')[0];
+  const [hour, minute] = time.split(':').map(Number);
+  if (isNaN(hour) || isNaN(minute)) return time24;
+  const ampm = hour >= 12 ? 'م' : 'ص';
+  const hour12 = hour % 12 || 12;
+  return `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`;
+}
+
+const PRAYERS = [
+  { key: "Fajr", label: "الفجر", color: "text-emerald-700 dark:text-emerald-500" },
+  { key: "Dhuhr", label: "الظهر", color: "text-amber-600 dark:text-amber-500" },
+  { key: "Asr", label: "العصر", color: "text-blue-600 dark:text-blue-500" },
+  { key: "Maghrib", label: "المغرب", color: "text-orange-600 dark:text-orange-500" },
+  { key: "Isha", label: "العشاء", color: "text-indigo-600 dark:text-indigo-500" },
+];
 
 const QURAN_VERSES = [
   "إِنَّ مَعَ الْعُسْرِ يُسْرًا", "وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَىٰ", "فَإِنَّكَ بِأَعْيُنِنَا", "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
@@ -30,22 +48,29 @@ const WISDOMS = [
 
 type PrayerTimes = {
   Fajr: string;
+  Dhuhr: string;
+  Asr: string;
   Maghrib: string;
+  Isha: string;
+  [key: string]: string;
 };
 
 export function IslamicWidget() {
   const [mounted, setMounted] = useState(false);
   const [prayerTimes, setPrayerTimes] = useState<{ cairo?: PrayerTimes, riyadh?: PrayerTimes }>({});
-  
-  // Calculate index based on the day of the year (rotates once every 24 hours)
-  const index = useMemo(() => {
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 0);
-    const diff = (now.getTime() - start.getTime()) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-    const oneDay = 1000 * 60 * 60 * 24;
-    const dayOfYear = Math.floor(diff / oneDay);
-    return dayOfYear % QURAN_VERSES.length;
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    setIndex(Math.floor(Math.random() * QURAN_VERSES.length));
   }, []);
+
+  const shuffleQuote = () => {
+    let nextIndex = Math.floor(Math.random() * QURAN_VERSES.length);
+    while (nextIndex === index) {
+      nextIndex = Math.floor(Math.random() * QURAN_VERSES.length);
+    }
+    setIndex(nextIndex);
+  };
 
   const verse = QURAN_VERSES[index];
   const wisdom = WISDOMS[index];
@@ -91,7 +116,16 @@ export function IslamicWidget() {
               إضاءة روحية
             </h2>
           </div>
-          <BookHeart className="text-emerald-600 dark:text-emerald-500" size={28} />
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={shuffleQuote} 
+              title="تغيير الإضاءة"
+              className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 hover:text-emerald-600 transition-colors"
+            >
+              <RefreshCw size={20} />
+            </button>
+            <BookHeart className="text-emerald-600 dark:text-emerald-500" size={28} />
+          </div>
         </div>
 
         <div className="grid gap-6 flex-1 place-content-center">
@@ -123,33 +157,33 @@ export function IslamicWidget() {
       <div className="mt-8 pt-5 border-t border-slate-100 dark:border-slate-800/80 relative z-10 grid grid-cols-2 gap-4">
         {/* Riyadh */}
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 mb-2">
             <MapPin size={14} />
-            <span className="text-xs font-bold uppercase tracking-wider font-sans">الرياض (افتراضي)</span>
+            <span className="text-xs font-bold uppercase tracking-wider font-sans">الرياض</span>
           </div>
-          <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 px-3 py-2 rounded-lg border border-slate-100 dark:border-slate-800">
-             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">الفجر</span>
-             <span className="text-sm font-bold text-emerald-700 dark:text-emerald-500 font-sans">{prayerTimes.riyadh?.Fajr || "--:--"}</span>
-          </div>
-          <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 px-3 py-2 rounded-lg border border-slate-100 dark:border-slate-800">
-             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">المغرب</span>
-             <span className="text-sm font-bold text-amber-700 dark:text-amber-500 font-sans">{prayerTimes.riyadh?.Maghrib || "--:--"}</span>
+          <div className="grid grid-cols-1 gap-1.5">
+            {PRAYERS.map(prayer => (
+              <div key={prayer.key} className="flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
+                 <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{prayer.label}</span>
+                 <span className={cx("text-[13px] font-bold font-sans", prayer.color)}>{formatTime12(prayerTimes.riyadh?.[prayer.key])}</span>
+              </div>
+            ))}
           </div>
         </div>
         
         {/* Cairo */}
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 mb-1">
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 mb-2">
             <MapPin size={14} />
             <span className="text-xs font-bold uppercase tracking-wider font-sans">القاهرة</span>
           </div>
-          <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 px-3 py-2 rounded-lg border border-slate-100 dark:border-slate-800">
-             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">الفجر</span>
-             <span className="text-sm font-bold text-emerald-700 dark:text-emerald-500 font-sans">{prayerTimes.cairo?.Fajr || "--:--"}</span>
-          </div>
-          <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 px-3 py-2 rounded-lg border border-slate-100 dark:border-slate-800">
-             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">المغرب</span>
-             <span className="text-sm font-bold text-amber-700 dark:text-amber-500 font-sans">{prayerTimes.cairo?.Maghrib || "--:--"}</span>
+          <div className="grid grid-cols-1 gap-1.5">
+            {PRAYERS.map(prayer => (
+              <div key={prayer.key} className="flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
+                 <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{prayer.label}</span>
+                 <span className={cx("text-[13px] font-bold font-sans", prayer.color)}>{formatTime12(prayerTimes.cairo?.[prayer.key])}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

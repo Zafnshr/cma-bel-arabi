@@ -41,12 +41,6 @@ const navigation = [
     description: "تكرار متباعد",
     icon: Layers3,
   },
-  {
-    href: "/simulator",
-    label: "محاكي الأسئلة",
-    description: "تدريب CMA",
-    icon: ClipboardCheck,
-  },
 ];
 
 export function AppShell({ children }: AppShellProps) {
