@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { COURSE_MAP } from "@/config/courseMap";
 import {
   BookOpenText,
   ClipboardCheck,
@@ -22,32 +23,15 @@ type AppShellProps = {
   children: React.ReactNode;
 };
 
-const navigation = [
-  {
-    href: "/dashboard",
-    label: "لوحة التعلم",
-    description: "التقدم والمهام",
-    icon: LayoutDashboard,
-  },
-  {
-    href: "/study/reader",
-    label: "قارئ الكتاب",
-    description: "جمل تفاعلية",
-    icon: BookOpenText,
-  },
-  {
-    href: "/study/flashcards",
-    label: "بطاقات المراجعة",
-    description: "تكرار متباعد",
-    icon: Layers3,
-  },
-];
+
 
 export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [expandedUnit, setExpandedUnit] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -107,40 +91,106 @@ export function AppShell({ children }: AppShellProps) {
             </div>
           </div>
 
-          <nav aria-label="التنقل الرئيسي" className="space-y-2">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              const isActive =
-                pathname === item.href || pathname.startsWith(`${item.href}/`);
+          <nav aria-label="التنقل الرئيسي" className="space-y-2 flex-1 overflow-y-auto pr-1 custom-scrollbar">
+            {/* Core Features */}
+            <Link
+              href="/dashboard"
+              className={cx(
+                "flex items-center gap-3 rounded-2xl border py-3 transition-all focus:outline-none focus:ring-2 focus:ring-amber-500/50",
+                isSidebarCollapsed ? "justify-center px-0" : "px-3",
+                pathname === "/dashboard"
+                  ? "border-amber-300 bg-amber-50 dark:bg-amber-900/20 text-slate-950 dark:text-amber-100"
+                  : "border-transparent text-slate-600 dark:text-slate-400 hover:border-slate-200 dark:hover:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white"
+              )}
+              title={isSidebarCollapsed ? "لوحة التعلم" : undefined}
+            >
+              <LayoutDashboard aria-hidden="true" size={20} className="shrink-0" />
+              {!isSidebarCollapsed && (
+                <span>
+                  <span className="block text-sm font-bold">لوحة التعلم</span>
+                  <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400 font-sans">التقدم والمهام</span>
+                </span>
+              )}
+            </Link>
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cx(
-                    "flex items-center gap-3 rounded-2xl border py-3 transition-all",
-                    isSidebarCollapsed ? "justify-center px-0" : "px-3",
-                    "focus:outline-none focus:ring-2 focus:ring-amber-500/50",
-                    isActive
-                      ? "border-amber-300 bg-amber-50 dark:bg-amber-900/20 text-slate-950 dark:text-amber-100"
-                      : "border-transparent text-slate-600 dark:text-slate-400 hover:border-slate-200 dark:hover:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white",
-                  )}
-                  title={isSidebarCollapsed ? item.label : undefined}
-                >
-                  <Icon aria-hidden="true" size={20} className="shrink-0" />
-                  {!isSidebarCollapsed && (
-                    <span>
-                      <span className="block text-sm font-bold">
-                        {item.label}
-                      </span>
-                      <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400 font-sans">
-                        {item.description}
-                      </span>
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
+            <Link
+              href="/study/flashcards"
+              className={cx(
+                "flex items-center gap-3 rounded-2xl border py-3 transition-all focus:outline-none focus:ring-2 focus:ring-amber-500/50",
+                isSidebarCollapsed ? "justify-center px-0" : "px-3",
+                pathname.startsWith("/study/flashcards")
+                  ? "border-amber-300 bg-amber-50 dark:bg-amber-900/20 text-slate-950 dark:text-amber-100"
+                  : "border-transparent text-slate-600 dark:text-slate-400 hover:border-slate-200 dark:hover:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white"
+              )}
+              title={isSidebarCollapsed ? "بطاقات المراجعة" : undefined}
+            >
+              <Layers3 aria-hidden="true" size={20} className="shrink-0" />
+              {!isSidebarCollapsed && (
+                <span>
+                  <span className="block text-sm font-bold">بطاقات المراجعة</span>
+                  <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400 font-sans">تكرار متباعد</span>
+                </span>
+              )}
+            </Link>
+
+            {/* Course Map Accordion */}
+            <div className="pt-6 pb-2">
+              <p className={cx("text-xs font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 mb-3", isSidebarCollapsed && "text-center")}>
+                {!isSidebarCollapsed ? "المنهج الدراسي (Becker)" : "المنهج"}
+              </p>
+              
+              {COURSE_MAP.map((unit, uIdx) => {
+                const isExpanded = expandedUnit === unit.beckerUnit;
+                return (
+                  <div key={unit.beckerUnit} className="mb-2">
+                    <button 
+                      onClick={() => {
+                        setExpandedUnit(isExpanded ? null : unit.beckerUnit);
+                        if (isSidebarCollapsed) toggleSidebar();
+                      }}
+                      className={cx(
+                        "flex items-center justify-between w-full rounded-2xl border transition-all py-3 focus:outline-none focus:ring-2 focus:ring-amber-500/50",
+                        isSidebarCollapsed ? "justify-center px-0" : "px-3",
+                        isExpanded 
+                          ? "border-amber-300 bg-amber-50 dark:bg-amber-900/20 text-slate-950 dark:text-amber-100" 
+                          : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                      )}
+                      title={isSidebarCollapsed ? unit.beckerUnit : undefined}
+                    >
+                      <div className="flex items-center gap-3">
+                        <BookOpenText size={20} className={cx("shrink-0", isExpanded ? "text-amber-600 dark:text-amber-400" : "")} />
+                        {!isSidebarCollapsed && <span className="text-sm font-bold text-right leading-relaxed">{unit.beckerUnit}</span>}
+                      </div>
+                      {!isSidebarCollapsed && (
+                        <ChevronLeft size={16} className={cx("transition-transform duration-300", isExpanded ? "-rotate-90 text-amber-600 dark:text-amber-400" : "")} />
+                      )}
+                    </button>
+                    
+                    {/* Modules - Smooth Collapse */}
+                    {!isSidebarCollapsed && (
+                      <div 
+                        className={cx(
+                          "overflow-hidden transition-all duration-300 ease-in-out", 
+                          isExpanded ? "max-h-[800px] opacity-100 mt-1" : "max-h-0 opacity-0"
+                        )}
+                      >
+                        <div className="flex flex-col gap-1 pr-7 border-r-2 border-slate-100 dark:border-slate-800 mr-5 mt-2 pb-2">
+                          {unit.modules.map(mod => (
+                            <button
+                              key={mod.moduleId} 
+                              onClick={() => router.push(`/study/reader?unit=${uIdx + 1}&module=${mod.moduleId}`)}
+                              className="text-xs font-semibold text-slate-500 hover:text-amber-700 dark:text-slate-400 dark:hover:text-amber-400 py-2.5 px-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors block text-right leading-relaxed"
+                            >
+                              {mod.title}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </nav>
 
           <div className="mt-auto pt-6 flex flex-col gap-3">
