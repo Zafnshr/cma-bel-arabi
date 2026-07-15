@@ -17,6 +17,7 @@ import {
   Sun,
 } from "lucide-react";
 import { cx } from "@/lib/utils";
+import { GlobalWisdomWidget } from "./GlobalWisdomWidget";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -77,6 +78,7 @@ export function AppShell({ children }: AppShellProps) {
 
   return (
     <div className="min-h-screen bg-background text-foreground [direction:rtl] transition-colors duration-300">
+      <GlobalWisdomWidget />
       <div 
         className={cx(
           "mx-auto grid min-h-screen max-w-[1720px] gap-0 transition-all duration-300",
