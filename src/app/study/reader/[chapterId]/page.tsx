@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { AppShell } from "@/components/layout/AppShell";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { PdfReadingWorkspaceClient } from "@/components/reader/PdfReadingWorkspaceClient";
 import { getLearningData } from "@/lib/content/data";
 import { parseTranslations, type ParsedTranslation } from "@/lib/parseTranslations";
@@ -45,10 +45,11 @@ export default async function ChapterPage({ params }: PageProps) {
   }
 
   return (
-    <AppShell
-      title={`دراسة الوحدة: ${chapterId}`}
-      subtitle="عارض PDF الهجين الذكي مع الترجمة السياقية."
-    >
+    <div className="space-y-6">
+      <PageHeader
+        title={`دراسة الوحدة: ${chapterId}`}
+        subtitle="عارض PDF الهجين الذكي مع الترجمة السياقية."
+      />
       <div className="max-w-[1600px] mx-auto py-6 px-4">
         <PdfReadingWorkspaceClient
           pages={data.readingPages}
@@ -59,6 +60,6 @@ export default async function ChapterPage({ params }: PageProps) {
           chapterSentences={chapterSentences}
         />
       </div>
-    </AppShell>
+    </div>
   );
 }

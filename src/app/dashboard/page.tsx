@@ -7,8 +7,10 @@ import {
   Layers3,
   Target,
   TrendingUp,
+  LayoutDashboard
 } from "lucide-react";
-import { AppShell } from "@/components/layout/AppShell";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { IslamicWidget } from "@/components/dashboard/IslamicWidget";
 import { getLearningData } from "@/lib/content/data";
 
 export default async function DashboardPage() {
@@ -39,17 +41,19 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <AppShell
-      title="لوحة التعلم"
-      subtitle="نظرة تشغيلية على تقدمك اليومي داخل منصة CMA Bel Arabi."
-    >
+    <div className="space-y-6">
+      <PageHeader
+        title="لوحة التعلم"
+        subtitle="نظرة تشغيلية على تقدمك اليومي داخل منصة CMA Bel Arabi."
+        icon={<LayoutDashboard size={28} />}
+      />
       <div className="grid gap-6">
         <section className="grid grid-cols-4 gap-4">
           <MetricCard
             label="مصطلح جاهز"
             value={data.terms.length.toLocaleString("ar-EG")}
             icon={Target}
-            tone="teal"
+            tone="amber"
           />
           <MetricCard
             label="جملة مترجمة"
@@ -61,31 +65,31 @@ export default async function DashboardPage() {
             label="سؤال تدريب"
             value={data.mcqs.length.toLocaleString("ar-EG")}
             icon={ClipboardCheck}
-            tone="amber"
+            tone="emerald"
           />
           <MetricCard
             label="وحدة دراسة"
             value={data.studyUnits.length.toLocaleString("ar-EG")}
             icon={TrendingUp}
-            tone="emerald"
+            tone="indigo"
           />
         </section>
 
-        <section className="grid grid-cols-[minmax(0,1fr)_360px] gap-6">
-          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-5 flex items-center justify-between">
+        <section className="grid grid-cols-2 gap-6">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1A1A1A] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col">
+            <div className="mb-6 flex items-center justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-amber-700 dark:text-amber-500 font-sans">
                   خطة اليوم
                 </p>
-                <h2 className="mt-1 text-2xl font-semibold text-slate-950">
+                <h2 className="mt-1 text-2xl font-bold text-slate-950 dark:text-white">
                   مهام قصيرة قابلة للتنفيذ
                 </h2>
               </div>
               <CalendarCheck className="text-slate-400" size={28} />
             </div>
 
-            <div className="grid gap-3">
+            <div className="grid gap-4 flex-1">
               {dailyTasks.map((task) => {
                 const Icon = task.icon;
 
@@ -93,23 +97,23 @@ export default async function DashboardPage() {
                   <Link
                     key={task.href}
                     href={task.href}
-                    className="group flex items-center justify-between rounded-md border border-slate-200 bg-slate-50 px-4 py-4 transition-colors hover:border-teal-300 hover:bg-teal-50"
+                    className="group flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-5 py-5 transition-colors hover:border-amber-300 dark:hover:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20 h-full"
                   >
-                    <span className="flex items-center gap-3">
-                      <span className="flex size-11 items-center justify-center rounded-md bg-white text-slate-800 shadow-sm">
+                    <span className="flex items-center gap-4">
+                      <span className="flex size-12 items-center justify-center rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition-transform group-hover:scale-105">
                         <Icon aria-hidden="true" size={20} />
                       </span>
                       <span>
-                        <span className="block text-base font-semibold text-slate-950">
+                        <span className="block text-lg font-bold text-slate-950 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
                           {task.title}
                         </span>
-                        <span className="mt-1 block text-sm text-slate-600">
+                        <span className="mt-1 block text-sm text-slate-600 dark:text-slate-400">
                           {task.detail}
                         </span>
                       </span>
                     </span>
                     <ArrowLeft
-                      className="text-slate-400 transition-transform group-hover:-translate-x-1 group-hover:text-teal-700"
+                      className="text-slate-400 transition-transform group-hover:-translate-x-1 group-hover:text-amber-600"
                       size={20}
                     />
                   </Link>
@@ -118,37 +122,10 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">
-              الوحدات
-            </p>
-            <h2 className="mt-1 text-xl font-semibold text-slate-950">
-              مسار Part 1
-            </h2>
-            <div className="mt-5 grid gap-3">
-              {data.studyUnits.map((unit, index) => (
-                <div
-                  key={unit.id}
-                  className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="ltr-content font-semibold text-slate-950">
-                      {unit.title}
-                    </p>
-                    <span className="rounded-md bg-white px-2 py-1 text-xs font-semibold text-slate-600">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <p className="ltr-content mt-2 text-sm leading-6 text-slate-600">
-                    {unit.summary}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <IslamicWidget />
         </section>
       </div>
-    </AppShell>
+    </div>
   );
 }
 
@@ -161,24 +138,24 @@ function MetricCard({
   label: string;
   value: string;
   icon: typeof Target;
-  tone: "teal" | "slate" | "amber" | "emerald";
+  tone: "amber" | "slate" | "emerald" | "indigo";
 }) {
   const tones = {
-    teal: "bg-teal-50 text-teal-800 border-teal-100",
-    slate: "bg-slate-50 text-slate-800 border-slate-200",
-    amber: "bg-amber-50 text-amber-900 border-amber-100",
-    emerald: "bg-emerald-50 text-emerald-800 border-emerald-100",
+    amber: "bg-amber-50 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 border-amber-100 dark:border-amber-800/50",
+    slate: "bg-slate-50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700/50",
+    emerald: "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 border-emerald-100 dark:border-emerald-800/50",
+    indigo: "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-400 border-indigo-100 dark:border-indigo-800/50",
   };
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1A1A1A] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
       <div
-        className={`mb-5 flex size-11 items-center justify-center rounded-md border ${tones[tone]}`}
+        className={`mb-5 flex size-12 items-center justify-center rounded-xl border ${tones[tone]}`}
       >
-        <Icon aria-hidden="true" size={21} />
+        <Icon aria-hidden="true" size={22} />
       </div>
-      <p className="text-3xl font-semibold text-slate-950">{value}</p>
-      <p className="mt-2 text-sm text-slate-500">{label}</p>
+      <p className="text-3xl font-bold text-slate-950 dark:text-white" style={{ fontFamily: "var(--font-cairo)" }}>{value}</p>
+      <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">{label}</p>
     </div>
   );
 }

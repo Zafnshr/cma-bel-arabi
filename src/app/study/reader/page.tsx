@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AppShell } from "@/components/layout/AppShell";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { BookOpen, ChevronRight, FileText } from "lucide-react";
 
 const STUDY_UNITS = [
@@ -27,17 +27,18 @@ const STUDY_UNITS = [
 
 export default function ReaderPage() {
   return (
-    <AppShell
-      title="مكتبة مناهج CMA"
-      subtitle="اختر الوحدة الدراسية لبدء القراءة التفاعلية المترجمة لحظياً."
-    >
+    <div className="space-y-6">
+      <PageHeader
+        title="مكتبة مناهج CMA"
+        subtitle="اختر الوحدة الدراسية لبدء القراءة التفاعلية المترجمة لحظياً."
+      />
       <div className="max-w-6xl mx-auto py-8 px-4 [direction:rtl]">
         <div className="flex items-center gap-3 mb-8 border-b border-slate-200 pb-5">
           <div className="flex size-12 items-center justify-center rounded-lg bg-amber-600 text-white shadow-md">
             <BookOpen size={24} />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-slate-900">الوحدات الدراسية (Study Units 1-20)</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">الوحدات الدراسية (Study Units 1-20)</h2>
             <p className="text-slate-500 text-sm mt-1">اختر فصلاً لبدء الدراسة باستخدام عارض PDF الهجين والترجمة التفاعلية.</p>
           </div>
         </div>
@@ -47,14 +48,14 @@ export default function ReaderPage() {
             <Link
               key={unit.id}
               href={`/study/reader/SU${unit.id}`}
-              className="flex items-center justify-between p-5 bg-[#FDFBF7] rounded-xl border border-slate-200 hover:border-amber-500 hover:shadow-md transition-all group"
+              className="flex items-center justify-between p-5 bg-[#FDFBF7] dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 dark:hover:border-amber-500 hover:shadow-md transition-all group"
             >
               <div className="flex items-center gap-4">
-                <div className="flex size-11 items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-700 shadow-sm group-hover:bg-amber-50 group-hover:text-amber-700 group-hover:border-amber-200 transition-colors">
+                <div className="flex size-11 items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 shadow-sm group-hover:bg-amber-50 dark:group-hover:bg-amber-900/30 group-hover:text-amber-700 dark:group-hover:text-amber-400 group-hover:border-amber-200 dark:group-hover:border-amber-800 transition-colors">
                   <FileText size={20} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-base leading-snug group-hover:text-amber-800 transition-colors">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base leading-snug group-hover:text-amber-800 dark:group-hover:text-amber-400 transition-colors">
                     {unit.title}
                   </h3>
                   <p className="text-slate-500 text-xs mt-1 font-mono tracking-wide [direction:ltr] text-right">
@@ -67,6 +68,6 @@ export default function ReaderPage() {
           ))}
         </div>
       </div>
-    </AppShell>
+    </div>
   );
 }

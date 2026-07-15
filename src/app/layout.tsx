@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Almarai } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import { AppShell } from "@/components/layout/AppShell";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const almarai = Almarai({
+  weight: ["300", "400", "700", "800"],
+  variable: "--font-almarai",
+  subsets: ["arabic"],
 });
 
 export const metadata: Metadata = {
@@ -27,9 +25,16 @@ export default function RootLayout({
     <html
       lang="ar"
       dir="rtl"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${almarai.variable}`}
+      suppressHydrationWarning
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased font-almarai bg-[#FDFDFD] dark:bg-[#0A0A0A]" suppressHydrationWarning>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AppShell>
+            {children}
+          </AppShell>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

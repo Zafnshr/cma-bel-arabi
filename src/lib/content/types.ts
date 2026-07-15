@@ -20,15 +20,18 @@ export type StudyUnit = {
 export type McqOption = {
   id: string;
   text: string;
+  textAr?: string;
 };
 
 export type Mcq = {
   id: string;
   unitId: string;
   question: string;
+  questionAr?: string;
   options: McqOption[];
   correctOptionId: string;
   explanation: string;
+  explanationAr?: string;
 };
 
 export type ReadingSentence = {

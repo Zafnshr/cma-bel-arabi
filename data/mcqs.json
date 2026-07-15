@@ -3,100 +3,124 @@
     "id": "mcq-cost-001",
     "unitId": "cost-behavior-foundations",
     "question": "A company uses Activity-Based Costing (ABC). Which item is the best Allocation Base for assigning machine setup costs?",
+    "questionAr": "تستخدم شركة نظام التكلفة على أساس النشاط (ABC). أي عنصر يمثل أفضل أساس توزيع (Allocation Base) لتحميل تكاليف إعداد الآلات؟",
     "options": [
       {
         "id": "A",
-        "text": "Number of machine setups"
+        "text": "Number of machine setups",
+        "textAr": "عدد إعدادات الآلات"
       },
       {
         "id": "B",
-        "text": "Direct labor cost"
+        "text": "Direct labor cost",
+        "textAr": "تكلفة العمل المباشر"
       },
       {
         "id": "C",
-        "text": "Finished goods inventory balance"
+        "text": "Finished goods inventory balance",
+        "textAr": "رصيد مخزون البضائع التامة"
       },
       {
         "id": "D",
-        "text": "Accounts Receivable Turnover"
+        "text": "Accounts Receivable Turnover",
+        "textAr": "معدل دوران الحسابات المدينة"
       }
     ],
     "correctOptionId": "A",
-    "explanation": "The allocation base should reflect the activity that causes the setup cost. Number of machine setups is the strongest cost driver."
+    "explanation": "The allocation base should reflect the activity that causes the setup cost. Number of machine setups is the strongest cost driver.",
+    "explanationAr": "يجب أن يعكس أساس التوزيع النشاط الذي يسبب تكلفة الإعداد. عدد إعدادات الآلات هو أقوى محرك تكلفة."
   },
   {
     "id": "mcq-cost-002",
     "unitId": "cost-behavior-foundations",
     "question": "Under Absorption Costing, which cost is included in product cost?",
+    "questionAr": "في ظل التكلفة المستوعبة (Absorption Costing)، أي تكلفة يتم إدراجها ضمن تكلفة المنتج؟",
     "options": [
       {
         "id": "A",
-        "text": "Fixed manufacturing overhead"
+        "text": "Fixed manufacturing overhead",
+        "textAr": "التكاليف الصناعية غير المباشرة الثابتة"
       },
       {
         "id": "B",
-        "text": "Selling expense"
+        "text": "Selling expense",
+        "textAr": "المصروفات البيعية"
       },
       {
         "id": "C",
-        "text": "Administrative Expense"
+        "text": "Administrative Expense",
+        "textAr": "المصروفات الإدارية"
       },
       {
         "id": "D",
-        "text": "Interest expense"
+        "text": "Interest expense",
+        "textAr": "مصروفات الفوائد"
       }
     ],
     "correctOptionId": "A",
-    "explanation": "Absorption costing attaches both variable and fixed manufacturing overhead to inventory as product cost."
+    "explanation": "Absorption costing attaches both variable and fixed manufacturing overhead to inventory as product cost.",
+    "explanationAr": "نظام التكلفة المستوعبة يحمل كلاً من التكاليف الصناعية غير المباشرة المتغيرة والثابتة على المخزون كتكلفة منتج."
   },
   {
     "id": "mcq-liquidity-001",
     "unitId": "working-capital-language",
     "question": "Which ratio is designed to measure immediate liquidity by excluding inventory from current assets?",
+    "questionAr": "أي نسبة مصممة لقياس السيولة الفورية عن طريق استبعاد المخزون من الأصول المتداولة؟",
     "options": [
       {
         "id": "A",
-        "text": "Acid-Test Ratio"
+        "text": "Acid-Test Ratio",
+        "textAr": "نسبة السيولة السريعة (Acid-Test Ratio)"
       },
       {
         "id": "B",
-        "text": "Accounts Payable Turnover"
+        "text": "Accounts Payable Turnover",
+        "textAr": "معدل دوران الحسابات الدائنة"
       },
       {
         "id": "C",
-        "text": "Accounting Profit"
+        "text": "Accounting Profit",
+        "textAr": "الربح المحاسبي"
       },
       {
         "id": "D",
-        "text": "Absorbed Overhead"
+        "text": "Absorbed Overhead",
+        "textAr": "التكاليف الصناعية المستوعبة"
       }
     ],
     "correctOptionId": "A",
-    "explanation": "The acid-test ratio, also called the quick ratio, focuses on the most liquid current assets."
+    "explanation": "The acid-test ratio, also called the quick ratio, focuses on the most liquid current assets.",
+    "explanationAr": "نسبة السيولة السريعة (Acid-Test Ratio)، وتُعرف أيضاً بنسبة التداول السريع، تركز على الأصول المتداولة الأكثر سيولة."
   },
   {
     "id": "mcq-accrual-001",
     "unitId": "reporting-and-accruals",
     "question": "Accrual Accounting requires revenue to be recognized when it is:",
+    "questionAr": "يتطلب أساس الاستحقاق المحاسبي (Accrual Accounting) الاعتراف بالإيراد عندما يكون:",
     "options": [
       {
         "id": "A",
-        "text": "Earned, even if cash has not yet been received"
+        "text": "Earned, even if cash has not yet been received",
+        "textAr": "مكتسباً، حتى لو لم يتم استلام النقدية بعد"
       },
       {
         "id": "B",
-        "text": "Collected in cash only"
+        "text": "Collected in cash only",
+        "textAr": "محصلاً نقداً فقط"
       },
       {
         "id": "C",
-        "text": "Approved by Accounts Payable"
+        "text": "Approved by Accounts Payable",
+        "textAr": "معتمداً من قبل الحسابات الدائنة"
       },
       {
         "id": "D",
-        "text": "Reported as Abnormal Spoilage"
+        "text": "Reported as Abnormal Spoilage",
+        "textAr": "مُبلغاً عنه كتلف غير طبيعي"
       }
     ],
     "correctOptionId": "A",
-    "explanation": "Accrual accounting separates earning revenue from collecting cash."
+    "explanation": "Accrual accounting separates earning revenue from collecting cash.",
+    "explanationAr": "أساس الاستحقاق يفصل بين اكتساب الإيراد وتحصيل النقدية."
   }
 ]
