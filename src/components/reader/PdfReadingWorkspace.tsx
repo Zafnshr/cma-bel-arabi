@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState, useEffect, useRef, useCallback, MouseEvent } from "react";
-import { useRouter } from "next/navigation";
-import { ArrowLeft, ChevronLeft, ChevronRight, FileText, PanelRight, ZoomIn, ZoomOut, Bookmark, BookmarkCheck } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowLeft, ChevronLeft, ChevronRight, FileText, PanelRight, ZoomIn, ZoomOut, Bookmark, BookmarkCheck, Minus, Plus } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -192,9 +192,14 @@ export function PdfReadingWorkspace({
   chapterId,
   chapterSentences = [],
 }: PdfReadingWorkspaceProps) {
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const [activePageNumber, setActivePageNumber] = useState(1);
   const [numPages, setNumPages] = useState<number>(1);
+
+  const minPage = searchParams.get("start") ? parseInt(searchParams.get("start")!, 10) : 1;
+  const maxPage = searchParams.get("end") ? parseInt(searchParams.get("end")!, 10) : numPages;
+
+  const [activePageNumber, setActivePageNumber] = useState(minPage);
   const [selectedAssistItem, setSelectedAssistItem] = useState<AssistPanelItem | undefined>(undefined);
   const [isPanelOpen, setIsPanelOpen] = useState(true);
 
@@ -202,7 +207,6 @@ export function PdfReadingWorkspace({
   const activeSentenceIdRef = useRef<string | null>(null);
 
   const pdfColumnRef = useRef<HTMLDivElement>(null);
-  const [pageWidth, setPageWidth] = useState<number>(900);
 
   const [zoomLevel, setZoomLevel] = useState(1.0);
   const [bookmarkedPage, setBookmarkedPage] = useState<number | null>(null);
@@ -215,16 +219,22 @@ export function PdfReadingWorkspace({
   useEffect(() => {
     const bookmarks = JSON.parse(localStorage.getItem('pdfBookmarks') || '{}');
     if (bookmarks[chapterId]) {
-      setActivePageNumber(bookmarks[chapterId]);
-      setBookmarkedPage(bookmarks[chapterId]);
+      const bPage = bookmarks[chapterId];
+      if (bPage >= minPage && bPage <= (maxPage || 9999)) {
+        setActivePageNumber(bPage);
+        setBookmarkedPage(bPage);
+      } else {
+        setActivePageNumber(minPage);
+        setBookmarkedPage(null);
+      }
     } else {
-      setActivePageNumber(1);
+      setActivePageNumber(minPage);
       setBookmarkedPage(null);
     }
     setSelectedAssistItem(undefined);
     activeSentenceIdRef.current = null;
     setZoomLevel(1.0);
-  }, [chapterId]);
+  }, [chapterId, minPage, maxPage]);
 
   const toggleBookmark = () => {
     const bookmarks = JSON.parse(localStorage.getItem('pdfBookmarks') || '{}');
@@ -238,19 +248,7 @@ export function PdfReadingWorkspace({
     localStorage.setItem('pdfBookmarks', JSON.stringify(bookmarks));
   };
 
-  // ResizeObserver for dynamic page width
-  useEffect(() => {
-    if (!pdfColumnRef.current) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.contentRect.width) {
-          setPageWidth(Math.floor(entry.contentRect.width) - 48);
-        }
-      }
-    });
-    observer.observe(pdfColumnRef.current);
-    return () => observer.disconnect();
-  }, [isPanelOpen]);
+
 
   // ── TRIGGER MAPPING after each page render ──
   // Fires after react-pdf's <Page> canvas renders, then waits for text layer spans.
@@ -282,7 +280,7 @@ export function PdfReadingWorkspace({
 
   function goToAdjacentPage(direction: -1 | 1) {
     const nextPage = activePageNumber + direction;
-    if (nextPage >= 1 && nextPage <= numPages) {
+    if (nextPage >= minPage && nextPage <= maxPage) {
       setActivePageNumber(nextPage);
       setSelectedAssistItem(undefined);
       activeSentenceIdRef.current = null;
@@ -352,161 +350,65 @@ export function PdfReadingWorkspace({
     <div className="flex h-screen w-full overflow-hidden bg-[#F9F6F0]" dir="ltr">
 
       {/* LEFT COLUMN: PDF Viewer — scrolls independently */}
-      <div
-        ref={pdfColumnRef}
-        className="flex-1 h-full overflow-y-auto relative pb-20"
-      >
-        {/* Sticky Header Bar */}
-        <div
-          className="sticky top-0 z-20 flex items-center justify-between border-b border-slate-200 bg-white/95 backdrop-blur-sm px-5 py-3"
-          dir="rtl"
-        >
-          <div className="flex items-center gap-3">
-            <div className="flex size-9 items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm">
-              <FileText aria-hidden="true" size={18} />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-amber-700">
-                عارض PDF الهجين الذكي
-              </p>
-              <h3 className="text-sm font-semibold text-slate-900 leading-snug">
-                {selectedUnit.title}
-              </h3>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => router.push("/study/reader")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all shadow-sm text-xs font-semibold"
-            >
-              <ArrowLeft size={14} />
-              <span>العودة للوحدات</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsPanelOpen(!isPanelOpen)}
-              className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
-              title={isPanelOpen ? "إخفاء لوحة المساعدة" : "إظهار لوحة المساعدة"}
-            >
-              <PanelRight size={15} />
-            </button>
-
-            <div className="h-5 w-px bg-slate-200 mx-0.5" />
-
-            {/* Zoom Controls */}
-            <button
-              type="button"
-              onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 2.0))}
-              className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
-              title="تكبير"
-            >
-              <ZoomIn size={15} />
-            </button>
-            <button
-              type="button"
-              onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.5))}
-              className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
-              title="تصغير"
-            >
-              <ZoomOut size={15} />
-            </button>
-
-            <div className="h-5 w-px bg-slate-200 mx-0.5" />
-
-            {/* Bookmark Control */}
-            <button
-              type="button"
-              onClick={toggleBookmark}
-              className={cx(
-                "flex size-8 items-center justify-center rounded-lg border transition-all shadow-sm",
-                bookmarkedPage === activePageNumber 
-                  ? "border-emerald-300 bg-emerald-50 text-emerald-600" 
-                  : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-              )}
-              title={bookmarkedPage === activePageNumber ? "إلغاء العلامة المرجعية" : "حفظ هذه الصفحة كعلامة مرجعية"}
-            >
-              {bookmarkedPage === activePageNumber ? <BookmarkCheck size={15} /> : <Bookmark size={15} />}
-            </button>
-
-            <div className="h-5 w-px bg-slate-200 mx-0.5" />
-
-            <button
-              type="button"
-              onClick={() => goToAdjacentPage(-1)}
-              disabled={activePageNumber === 1}
-              className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition-all hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 shadow-sm"
-              aria-label="الصفحة السابقة"
-            >
-              <ChevronLeft aria-hidden="true" size={15} />
-            </button>
-            <div className="flex items-center rounded-lg border border-slate-200 bg-white px-2 py-1 shadow-sm text-xs font-semibold text-slate-800">
-              صفحة 
-              <input 
-                type="number"
-                min={1}
-                max={numPages}
-                defaultValue={activePageNumber}
-                key={activePageNumber}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    let val = parseInt((e.target as HTMLInputElement).value);
-                    if (!isNaN(val) && val >= 1 && val <= numPages) {
-                      setActivePageNumber(val);
-                      setSelectedAssistItem(undefined);
-                      activeSentenceIdRef.current = null;
-                    }
-                  }
-                }}
-                onBlur={(e) => {
-                   let val = parseInt(e.target.value);
-                   if (!isNaN(val) && val >= 1 && val <= numPages) {
-                      setActivePageNumber(val);
-                   }
-                   e.target.value = activePageNumber.toString();
-                }}
-                className="w-12 mx-1.5 text-center bg-slate-50 border border-slate-200 rounded text-slate-900 focus:outline-none focus:ring-1 focus:ring-amber-500"
-              />
-              من {numPages.toLocaleString("ar-EG")}
-            </div>
-            <button
-              type="button"
-              onClick={() => goToAdjacentPage(1)}
-              disabled={activePageNumber === numPages}
-              className="flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 transition-all hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 shadow-sm"
-              aria-label="الصفحة التالية"
-            >
-              <ChevronRight aria-hidden="true" size={15} />
-            </button>
-          </div>
+      <div className="flex-1 h-full relative flex flex-col min-w-0 bg-[#F9F6F0]">
+        
+        {/* Floating Back Button */}
+        <div className="absolute top-4 right-4 z-20" dir="rtl">
+          <button
+            type="button"
+            onClick={() => router.push("/study/curriculum")}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-md shadow-sm text-slate-600 hover:text-slate-900 transition-all font-semibold"
+          >
+            <ArrowLeft size={18} />
+            <span>العودة</span>
+          </button>
         </div>
 
-        {/* PDF Render Area */}
+        {/* 3. THE FLOATING NAVIGATION OVERLAY */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-slate-200 dark:border-slate-700 z-20" dir="ltr">
+          <button onClick={() => goToAdjacentPage(-1)} disabled={activePageNumber <= minPage} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full disabled:opacity-50 text-slate-700 dark:text-slate-300">
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          
+          <div className="flex items-center gap-3 px-4 border-x border-slate-200 dark:border-slate-600">
+            <button onClick={() => setZoomLevel(s => Math.max(0.5, s - 0.25))} className="p-1 hover:text-amber-500 text-slate-600 dark:text-slate-400">
+              <Minus className="w-4 h-4" />
+            </button>
+            <span className="text-sm font-mono font-medium text-slate-700 dark:text-slate-300 w-12 text-center">
+              {Math.round(zoomLevel * 100)}%
+            </span>
+            <button onClick={() => setZoomLevel(s => Math.min(3.0, s + 0.25))} className="p-1 hover:text-amber-500 text-slate-600 dark:text-slate-400">
+              <Plus className="w-4 h-4" />
+            </button>
+          </div>
+
+          <button onClick={() => goToAdjacentPage(1)} disabled={activePageNumber >= maxPage} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full disabled:opacity-50 text-slate-700 dark:text-slate-300">
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* 1. THE SCROLL VIEWPORT */}
         <div
-          className="p-6 flex justify-center select-text relative"
+          ref={pdfColumnRef}
+          className="flex-1 overflow-auto bg-slate-100 dark:bg-slate-900/50 p-4 relative flex justify-center items-start"
           dir="ltr"
           onMouseMove={handleTextLayerMouseMove}
           onMouseLeave={handleTextLayerMouseLeave}
         >
-          <div className="shadow-[0_20px_60px_rgba(15,23,42,0.12)] rounded overflow-hidden bg-white">
+          {/* 2. THE ISOLATED CANVAS WRAPPER */}
+          <div className="inline-block shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 bg-white dark:bg-slate-950 transition-transform duration-200">
             <Document
               key={selectedUnit.fileName}
               file={`/material/${selectedUnit.fileName}`}
               onLoadSuccess={onDocumentLoadSuccess}
-              loading={
-                <div className="p-16 text-center text-slate-500">
-                  جاري تحميل الفصل...
-                </div>
-              }
+              loading={<div className="p-20 text-center text-slate-500">جاري تحميل المستند...</div>}
             >
               <Page
                 pageNumber={activePageNumber}
-                width={pageWidth}
-                scale={zoomLevel}
+                scale={zoomLevel} /* MUST BE NATIVE PROP, NOT CSS */
                 renderTextLayer={true}
                 renderAnnotationLayer={false}
+                className="max-w-none" /* CRITICAL: Prevents Tailwind from squishing the canvas */
                 onRenderSuccess={handlePageRenderSuccess}
               />
             </Document>
