@@ -52,12 +52,15 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET || "cma-bel-arabi-secret-placeholder-key-xyz",
 };
 
-const authHandler = NextAuth(authOptions);
-
 const handler = (req: any, ctx: any) => {
+  // Dynamically set NEXTAUTH_URL to the exact host being requested
+  // This prevents CSRF and URL mismatch errors on Vercel custom domains
   const host = req.headers.get("host") || "localhost:3000";
   const protocol = req.headers.get("x-forwarded-proto") || "http";
   process.env.NEXTAUTH_URL = `${protocol}://${host}`;
+  
+  // Initialize NextAuth inside the handler so it captures the updated NEXTAUTH_URL
+  const authHandler = NextAuth(authOptions);
   return authHandler(req, ctx);
 };
 
