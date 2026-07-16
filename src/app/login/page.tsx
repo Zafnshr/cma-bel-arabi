@@ -30,7 +30,7 @@ export default function LoginPage() {
               "*"
             );
           } else if (res?.url) {
-            window.location.href = "/curriculum"; // Refresh session and redirect cleanly
+            window.location.href = "/dashboard"; // Refresh session and redirect cleanly
           }
         } catch (err) {
           iframeRef.current?.contentWindow?.postMessage(
