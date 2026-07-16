@@ -111,3 +111,45 @@ button {
   display: block;
   z-index: 1 !important;
 }
+
+/* Live Dynamic Background Animations */
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(60px, -80px) scale(1.1); }
+  66% { transform: translate(-40px, 40px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+.animate-blob {
+  animation: blob 15s infinite;
+}
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+.animation-delay-6000 {
+  animation-delay: 6s;
+}
+
+/* Custom Scrollbar for App Content Area */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(75, 85, 99, 0.4);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(75, 85, 99, 0.7);
+}

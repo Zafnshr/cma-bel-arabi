@@ -1,9 +1,13 @@
 "use client";
 
 import { useMemo, useState, useEffect, useCallback } from "react";
-import { RotateCcw, Sparkles } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { RotateCcw, Sparkles, ArrowRight, BookOpen, Layers } from "lucide-react";
 import type { ContentSource, Term } from "@/lib/content/types";
 import { cx } from "@/lib/utils";
+import { FLASHCARD_INDEX } from "@/config/flashcardIndex";
+import { COURSE_MAP } from "@/config/courseMap";
 
 type FlashcardsWorkspaceProps = {
   terms: Term[];
@@ -25,7 +29,24 @@ const starterState: ReviewState = {
 };
 
 export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps) {
-  const deck = terms;
+  const searchParams = useSearchParams();
+  const unitParam = searchParams.get("unit");
+  const moduleParam = searchParams.get("module");
+
+  const [activeUnitIndex, setActiveUnitIndex] = useState(0);
+
+  const deck = useMemo(() => {
+    if (unitParam && moduleParam) {
+      const key = `U${unitParam}-${moduleParam}`;
+      const requiredTerms = FLASHCARD_INDEX[key];
+      if (requiredTerms) {
+        return terms.filter((card) => requiredTerms.includes(card.term));
+      }
+      return [];
+    }
+    return terms;
+  }, [terms, unitParam, moduleParam]);
+
   const [cardIndex, setCardIndex] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
   const [states, setStates] = useState<Record<string, ReviewState>>({});
@@ -73,16 +94,106 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isRevealed, gradeCard]);
 
-  if (!activeTerm) {
+  // --- HUB VIEW ---
+  if (!unitParam || !moduleParam) {
+    const activeUnit = COURSE_MAP[activeUnitIndex];
+    
     return (
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1A1A1A] p-8 text-slate-600 dark:text-slate-400">
-        لا توجد مصطلحات متاحة للمراجعة.
+      <div className="max-w-6xl mx-auto w-full [direction:rtl]">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+            <Layers className="text-amber-500" size={32} />
+            الوحدات الدراسية
+          </h2>
+          <p className="text-slate-500 mt-2 text-lg">اختر الوحدة لبدء المراجعة باستخدام البطاقات التعليمية الذكية.</p>
+        </div>
+
+        <div className="flex overflow-x-auto hide-scrollbar gap-2 mb-8 border-b border-slate-200 dark:border-slate-800 pb-2">
+          {COURSE_MAP.map((unit, idx) => {
+            const unitNum = unit.beckerUnit.match(/Unit (\d+)/)?.[1] || (idx + 1).toString();
+            return (
+              <button
+                key={idx}
+                onClick={() => setActiveUnitIndex(idx)}
+                className={cx(
+                  "px-5 py-3 rounded-t-xl font-bold transition-all whitespace-nowrap border-b-2",
+                  activeUnitIndex === idx
+                    ? "border-amber-500 text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20"
+                    : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
+                )}
+              >
+                الوحدة {unitNum}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {activeUnit.modules.map(mod => {
+            const unitNum = activeUnit.beckerUnit.match(/Unit (\d+)/)?.[1] || (activeUnitIndex + 1).toString();
+            return (
+              <div key={mod.moduleId} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 flex flex-col hover:border-amber-300 dark:hover:border-amber-700 transition-colors shadow-sm">
+                <div className="mb-4 flex-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 px-2.5 py-1 rounded-md text-xs font-mono font-bold">
+                      {mod.moduleId}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100 mb-1">{mod.arabicTitle}</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-sans ltr-content text-left">{mod.title}</p>
+                </div>
+                
+                <Link
+                  href={`/study/flashcards?unit=${unitNum}&module=${mod.moduleId}`}
+                  className="flex items-center justify-center gap-2 w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 px-4 rounded-xl hover:bg-amber-500 dark:hover:bg-amber-500 hover:text-white transition-colors"
+                >
+                  <BookOpen size={18} />
+                  ابدأ المراجعة
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // --- SESSION VIEW ---
+  const currentUnitConfig = COURSE_MAP.find(u => u.beckerUnit.includes(`Unit ${unitParam}:`));
+  const currentModuleConfig = currentUnitConfig?.modules.find(m => m.moduleId === moduleParam);
+  const currentTitle = currentModuleConfig ? `${currentModuleConfig.moduleId} - ${currentModuleConfig.arabicTitle}` : `وحدة ${unitParam} / ${moduleParam}`;
+
+  if (deck.length === 0) {
+    return (
+      <div className="max-w-5xl mx-auto w-full [direction:rtl]">
+        <div className="mb-6">
+          <Link href="/study/flashcards" className="inline-flex items-center gap-2 text-slate-500 hover:text-amber-600 transition-colors font-semibold">
+            <ArrowRight size={20} />
+            العودة للوحدات
+          </Link>
+        </div>
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1A1A1A] p-16 text-center text-slate-600 dark:text-slate-400 shadow-sm flex flex-col items-center justify-center">
+          <Layers size={48} className="text-slate-300 dark:text-slate-700 mb-4" />
+          <p className="text-xl font-bold">لا توجد بطاقات متاحة لهذه الوحدة حالياً.</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-6 max-w-5xl mx-auto w-full">
+    <div className="grid gap-6 max-w-5xl mx-auto w-full [direction:rtl]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
+        <Link href="/study/flashcards" className="inline-flex items-center gap-2 text-slate-500 hover:text-amber-600 transition-colors font-semibold">
+          <ArrowRight size={20} />
+          العودة للوحدات
+        </Link>
+        <div className="text-right">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">
+            {currentTitle}
+          </h1>
+        </div>
+      </div>
+
       <section className="grid min-h-[720px] grid-rows-[auto_minmax(0,1fr)] gap-5">
         <div className="grid grid-cols-4 gap-4">
           <Stat label="إجمالي البطاقات" value={deck.length.toLocaleString("ar-EG")} />

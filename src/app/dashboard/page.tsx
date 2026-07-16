@@ -70,7 +70,7 @@ export default async function DashboardPage() {
         </section>
 
         <section className="grid grid-cols-2 gap-6">
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1A1A1A] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#1A1A1A]/80 backdrop-blur-xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col">
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-amber-700 dark:text-amber-500 font-sans">
@@ -91,7 +91,7 @@ export default async function DashboardPage() {
                   <Link
                     key={task.href}
                     href={task.href}
-                    className="group flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-5 py-5 transition-colors hover:border-amber-300 dark:hover:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20 h-full"
+                    className="group flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-5 py-5 transition-colors hover:border-amber-300 dark:hover:border-amber-700 hover:bg-amber-50/80 dark:hover:bg-amber-900/40 h-full"
                   >
                     <span className="flex items-center gap-4">
                       <span className="flex size-12 items-center justify-center rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition-transform group-hover:scale-105">

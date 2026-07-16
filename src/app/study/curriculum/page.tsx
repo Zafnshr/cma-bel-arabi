@@ -4,7 +4,7 @@ import { useState } from "react";
 import { COURSE_MAP } from "@/config/courseMap";
 import { PageHeader } from "@/components/layout/PageHeader";
 import Link from "next/link";
-import { BookOpen, ChevronLeft, ChevronDown, Map as MapIcon, Layers } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronDown, Map as MapIcon, Layers, Sparkles } from "lucide-react";
 import { cx } from "@/lib/utils";
 
 export default function CurriculumPage() {
@@ -41,9 +41,12 @@ export default function CurriculumPage() {
                   onClick={() => toggleUnit(unit.beckerUnit)}
                   className="w-full text-right bg-slate-50 dark:bg-slate-800/50 px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none"
                 >
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
-                    <Layers className="text-amber-500" size={24} />
-                    {unit.beckerUnit}
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3 text-right">
+                    <Layers className="text-amber-500 shrink-0" size={24} />
+                    <div className="flex flex-col">
+                      <span>{unit.arabicUnit}</span>
+                      <span className="text-sm font-normal text-slate-500 dark:text-slate-400 mt-1 font-sans text-left ltr-content">{unit.beckerUnit}</span>
+                    </div>
                   </h3>
                   <ChevronDown className={cx("text-slate-500 transition-transform duration-300", isOpen ? "rotate-180" : "")} size={20} />
                 </button>
@@ -52,16 +55,21 @@ export default function CurriculumPage() {
                   <div className="overflow-hidden">
                     <div className="p-6">
                       <div className="grid gap-3">
-                        {unit.modules.map(mod => (
+                        {unit.modules.map(mod => {
+                          const unitNumber = unit.beckerUnit.match(/Unit (\d+)/)?.[1];
+                          return (
                           <div key={mod.moduleId} className="group flex flex-col p-5 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-[#1A1A1A] hover:border-amber-200 dark:hover:border-amber-900 hover:shadow-sm transition-all">
                             <div className="mb-4">
-                              <h4 className="font-bold text-slate-800 dark:text-slate-100 text-base flex items-center gap-2">
-                                <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded text-xs font-mono">{mod.moduleId}</span>
-                                {mod.title}
-                              </h4>
+                              <div className="flex flex-col gap-1.5">
+                                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-base flex items-center gap-2 text-right">
+                                  <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded text-xs font-mono shrink-0">{mod.moduleId}</span>
+                                  <span>{mod.arabicTitle}</span>
+                                </h4>
+                                <span className="text-sm font-normal text-slate-500 dark:text-slate-400 pr-10 font-sans text-left ltr-content">{mod.title}</span>
+                              </div>
                             </div>
                             
-                            <div className="flex flex-wrap gap-3">
+                            <div className="flex flex-wrap items-center gap-3">
                               {mod.sections.map((sec, sIdx) => (
                                 <Link
                                   key={sIdx} 
@@ -73,9 +81,19 @@ export default function CurriculumPage() {
                                   <ChevronLeft size={14} className="opacity-50" />
                                 </Link>
                               ))}
+                              
+                              <div className="w-full sm:w-auto sm:mr-auto mt-2 sm:mt-0">
+                                <Link
+                                  href={`/study/flashcards?unit=${unitNumber}&module=${mod.moduleId}`}
+                                  className="flex items-center justify-center gap-2 text-sm font-bold bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 px-5 py-2.5 rounded-xl border border-amber-200 dark:border-amber-900/50 hover:bg-amber-500 hover:text-white dark:hover:bg-amber-500 dark:hover:text-white transition-all shadow-sm w-full"
+                                >
+                                  <Sparkles size={16} />
+                                  <span>مراجعة البطاقات</span>
+                                </Link>
+                              </div>
                             </div>
                           </div>
-                        ))}
+                        )})}
                       </div>
                     </div>
                   </div>

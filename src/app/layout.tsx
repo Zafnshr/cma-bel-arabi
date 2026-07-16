@@ -29,7 +29,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased font-almarai bg-[#FDFDFD] dark:bg-[#0A0A0A]" suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <AppShell>
             {children}
           </AppShell>
