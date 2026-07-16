@@ -15,6 +15,8 @@ import {
   ChevronRight,
   Moon,
   Sun,
+  Menu,
+  X,
 } from "lucide-react";
 import { cx } from "@/lib/utils";
 import { GlobalWisdomWidget } from "./GlobalWisdomWidget";
@@ -61,6 +63,7 @@ export function AppShell({ children }: AppShellProps) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -70,6 +73,11 @@ export function AppShell({ children }: AppShellProps) {
     }
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
   const toggleSidebar = () => {
     const newState = !isSidebarCollapsed;
     setIsSidebarCollapsed(newState);
@@ -78,7 +86,7 @@ export function AppShell({ children }: AppShellProps) {
 
   return (
     <div className="h-screen bg-background text-foreground [direction:rtl] transition-colors duration-300 relative overflow-hidden z-0">
-      {/* GLOBAL DYNAMIC BACKGROUND - 100x Faster Performance using Radial Gradients instead of CSS Blur */}
+      {/* GLOBAL DYNAMIC BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="fixed top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full animate-blob bg-[radial-gradient(circle,_rgba(52,211,153,0.35)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle,_rgba(5,150,105,0.2)_0%,_transparent_70%)]" />
         <div className="fixed top-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full animate-blob animation-delay-2000 bg-[radial-gradient(circle,_rgba(45,212,191,0.35)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle,_rgba(13,148,136,0.2)_0%,_transparent_70%)]" />
@@ -87,45 +95,84 @@ export function AppShell({ children }: AppShellProps) {
       </div>
 
       <GlobalWisdomWidget />
+      
       <div 
         className={cx(
-          "mx-auto grid h-screen max-w-[1720px] gap-0 transition-all duration-300 relative z-10",
+          "mx-auto flex flex-col md:grid h-[100dvh] md:h-screen max-w-[1720px] gap-0 transition-all duration-300 relative z-10",
           isSidebarCollapsed 
-            ? "grid-cols-[80px_minmax(0,1fr)]" 
-            : "grid-cols-[280px_minmax(0,1fr)]"
+            ? "md:grid-cols-[80px_minmax(0,1fr)]" 
+            : "md:grid-cols-[280px_minmax(0,1fr)]"
         )}
       >
+        {/* MOBILE HEADER */}
+        <div className="md:hidden flex items-center justify-between px-5 h-16 bg-white/80 dark:bg-[#1A1A1A]/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 z-40 sticky top-0 shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-amber-500 text-slate-950">
+              <Gauge aria-hidden="true" size={20} />
+            </div>
+            <div>
+              <h1 className="text-sm font-bold text-slate-950 dark:text-white leading-tight">
+                CMA Bel Arabi
+              </h1>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="p-2 -mr-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline-none"
+          >
+            <Menu size={24} />
+          </button>
+        </div>
+
+        {/* MOBILE BACKDROP */}
+        {isMobileMenuOpen && (
+          <div 
+            className="md:hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+
         {/* Global Nav Sidebar */}
         <aside 
           className={cx(
-            "sticky top-0 h-screen border-l border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#1A1A1A]/80 backdrop-blur-xl py-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 flex flex-col relative",
-            isSidebarCollapsed ? "px-3 w-20" : "px-5 w-64"
+            "fixed md:sticky top-0 h-[100dvh] md:h-screen border-l border-slate-200 dark:border-slate-800 bg-white dark:md:bg-[#1A1A1A]/80 dark:bg-slate-900 md:bg-white/80 md:backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 flex flex-col z-50",
+            // Desktop state
+            isSidebarCollapsed ? "md:w-20 md:px-3" : "md:w-64 md:px-5",
+            // Mobile state
+            "w-72 px-6 py-6 md:py-6 right-0",
+            isMobileMenuOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"
           )}
         >
-          {/* Collapse Toggle Button - floated on the left edge */}
+          {/* Mobile Close Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="md:hidden absolute top-5 left-5 p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+          >
+            <X size={24} />
+          </button>
+
+          {/* Collapse Toggle Button - floated on the left edge (desktop only) */}
           <button
             onClick={toggleSidebar}
-            className="absolute -left-3 top-7 flex size-6 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 shadow-sm hover:text-slate-900 dark:hover:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors z-10"
+            className="hidden md:flex absolute -left-3 top-7 size-6 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 shadow-sm hover:text-slate-900 dark:hover:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors z-10"
             title={isSidebarCollapsed ? "توسيع القائمة" : "طي القائمة"}
           >
             {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
           </button>
 
-          <div className="mb-8">
-            <div className={cx("flex items-center gap-3", isSidebarCollapsed && "justify-center")}>
+          <div className="mb-8 mt-4 md:mt-0">
+            <div className={cx("flex items-center gap-3", isSidebarCollapsed ? "md:justify-center" : "")}>
               <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-slate-950">
                 <Gauge aria-hidden="true" size={23} />
               </div>
-              {!isSidebarCollapsed && (
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-500 font-sans">
-                    CMA Bel Arabi
-                  </p>
-                  <h1 className="text-lg font-bold text-slate-950 dark:text-white">
-                    منصة التعلم
-                  </h1>
-                </div>
-              )}
+              <div className={cx(isSidebarCollapsed ? "md:hidden" : "")}>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-500 font-sans">
+                  CMA Bel Arabi
+                </p>
+                <h1 className="text-lg font-bold text-slate-950 dark:text-white">
+                  منصة التعلم
+                </h1>
+              </div>
             </div>
           </div>
 
@@ -141,25 +188,24 @@ export function AppShell({ children }: AppShellProps) {
                   href={item.href}
                   className={cx(
                     "flex items-center gap-3 rounded-2xl border py-3 transition-all",
-                    isSidebarCollapsed ? "justify-center px-0" : "px-3",
+                    "px-3", // Base mobile (expanded)
+                    isSidebarCollapsed && "md:justify-center md:px-0", // Desktop collapsed
                     "focus:outline-none focus:ring-2 focus:ring-amber-500/50",
                     isActive
                       ? "border-amber-300 bg-amber-50 dark:bg-amber-900/20 text-slate-950 dark:text-amber-100"
                       : "border-transparent text-slate-600 dark:text-slate-400 hover:border-slate-200 dark:hover:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white",
                   )}
-                  title={isSidebarCollapsed ? item.label : undefined}
+                  title={item.label}
                 >
                   <Icon aria-hidden="true" size={20} className="shrink-0" />
-                  {!isSidebarCollapsed && (
-                    <span>
-                      <span className="block text-sm font-bold">
-                        {item.label}
-                      </span>
-                      <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400 font-sans">
-                        {item.description}
-                      </span>
+                  <span className={cx(isSidebarCollapsed && "md:hidden")}>
+                    <span className="block text-sm font-bold">
+                      {item.label}
                     </span>
-                  )}
+                    <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400 font-sans">
+                      {item.description}
+                    </span>
+                  </span>
                 </Link>
               );
             })}
@@ -171,16 +217,21 @@ export function AppShell({ children }: AppShellProps) {
               <div 
                 className={cx(
                   "bg-slate-100 dark:bg-slate-800/80 rounded-2xl p-1 relative flex items-center transition-all duration-500",
-                  isSidebarCollapsed ? "flex-col w-[52px] mx-auto" : "w-full"
+                  "w-full", // Mobile
+                  isSidebarCollapsed && "md:flex-col md:w-[52px] md:mx-auto" // Desktop
                 )}
               >
                 {/* Active Slider Background */}
                 <div 
                   className={cx(
                     "absolute bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-all duration-500 ease-spring",
-                    isSidebarCollapsed 
-                      ? cx("left-1 right-1 h-10", theme === "dark" ? "translate-y-11" : "translate-y-0")
-                      : cx("top-1 bottom-1 w-[calc(50%-4px)]", theme === "dark" ? "left-1" : "right-1")
+                    // Base (mobile) always acts expanded:
+                    "top-1 bottom-1 w-[calc(50%-4px)]",
+                    theme === "dark" ? "left-1" : "right-1",
+                    // Desktop collapsed overrides:
+                    isSidebarCollapsed && "md:top-auto md:bottom-auto md:w-auto md:left-1 md:right-1 md:h-10",
+                    isSidebarCollapsed && theme === "dark" && "md:translate-y-11 md:left-1 md:right-1",
+                    isSidebarCollapsed && theme === "light" && "md:translate-y-0 md:left-1 md:right-1"
                   )}
                 />
                 
@@ -188,14 +239,15 @@ export function AppShell({ children }: AppShellProps) {
                   onClick={() => setTheme("light")}
                   className={cx(
                     "relative z-10 flex items-center justify-center transition-colors duration-300",
-                    isSidebarCollapsed ? "h-11 w-full" : "h-10 w-1/2",
+                    "h-10 w-1/2", // Base mobile (expanded)
+                    isSidebarCollapsed && "md:h-11 md:w-full", // Desktop collapsed
                     theme === "light" ? "text-amber-500" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                   )}
                   title="الوضع النهاري"
                 >
                   <div className="flex items-center gap-2 justify-center w-full">
                     <Sun size={18} className={cx("transition-transform duration-500 shrink-0", theme === "light" && "rotate-90 scale-110")} />
-                    {!isSidebarCollapsed && <span className="text-xs font-bold font-sans w-8 text-right">فاتح</span>}
+                    <span className={cx("text-xs font-bold font-sans w-8 text-right", isSidebarCollapsed && "md:hidden")}>فاتح</span>
                   </div>
                 </button>
                 
@@ -203,14 +255,15 @@ export function AppShell({ children }: AppShellProps) {
                   onClick={() => setTheme("dark")}
                   className={cx(
                     "relative z-10 flex items-center justify-center transition-colors duration-300",
-                    isSidebarCollapsed ? "h-11 w-full mt-1" : "h-10 w-1/2",
+                    "h-10 w-1/2", // Base mobile (expanded)
+                    isSidebarCollapsed && "md:h-11 md:w-full md:mt-1", // Desktop collapsed
                     theme === "dark" ? "text-indigo-400" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                   )}
                   title="الوضع الليلي"
                 >
                   <div className="flex items-center gap-2 justify-center w-full">
                     <Moon size={18} className={cx("transition-transform duration-500 shrink-0", theme === "dark" && "-rotate-12 scale-110")} />
-                    {!isSidebarCollapsed && <span className="text-xs font-bold font-sans w-8 text-right">داكن</span>}
+                    <span className={cx("text-xs font-bold font-sans w-8 text-right", isSidebarCollapsed && "md:hidden")}>داكن</span>
                   </div>
                 </button>
               </div>
@@ -218,7 +271,7 @@ export function AppShell({ children }: AppShellProps) {
           </div>
         </aside>
 
-        <div className="min-w-0 px-8 py-7 h-screen overflow-y-auto custom-scrollbar relative z-0">
+        <div className="min-w-0 px-4 py-5 md:px-8 md:py-7 h-[calc(100dvh-64px)] md:h-screen overflow-y-auto custom-scrollbar relative z-0">
           {children}
         </div>
       </div>

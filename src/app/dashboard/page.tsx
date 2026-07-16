@@ -42,7 +42,7 @@ export default async function DashboardPage() {
         icon={<LayoutDashboard size={28} />}
       />
       <div className="grid gap-6">
-        <section className="grid grid-cols-4 gap-4">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <MetricCard
             label="مصطلح جاهز"
             value={data.terms.length.toLocaleString("ar-EG")}
@@ -69,7 +69,7 @@ export default async function DashboardPage() {
           />
         </section>
 
-        <section className="grid grid-cols-2 gap-6">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#1A1A1A]/80 backdrop-blur-xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col">
             <div className="mb-6 flex items-center justify-between">
               <div>

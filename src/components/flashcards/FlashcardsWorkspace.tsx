@@ -195,7 +195,7 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
       </div>
 
       <section className="grid min-h-[720px] grid-rows-[auto_minmax(0,1fr)] gap-5">
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Stat label="إجمالي البطاقات" value={deck.length.toLocaleString("ar-EG")} />
           <Stat
             label="البطاقة الحالية"
@@ -235,7 +235,7 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
           </div>
 
           <div className="flex-1 flex flex-col justify-center py-6 relative">
-            <div className="w-full mx-auto perspective-1000 h-[480px]">
+            <div className="w-full mx-auto perspective-1000 h-[380px] md:h-[480px]">
               <button
                 type="button"
                 onClick={() => !isRevealed && setIsRevealed(true)}
@@ -246,15 +246,15 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
                 aria-label={isRevealed ? "البطاقة مقلوبة" : "اضغط لقلب البطاقة"}
               >
                 {/* Front Face */}
-                <div className="absolute inset-0 backface-hidden flex flex-col items-center justify-center rounded-2xl border border-slate-200 dark:border-slate-800 bg-[#FAFAFA] dark:bg-[#111111] px-12 py-16 text-center shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+                <div className="absolute inset-0 backface-hidden flex flex-col items-center justify-center rounded-2xl border border-slate-200 dark:border-slate-800 bg-[#FAFAFA] dark:bg-[#111111] px-6 md:px-12 py-12 md:py-16 text-center shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
                   <p className="absolute top-6 left-1/2 -translate-x-1/2 text-sm font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest font-sans">
                     الوجه الأمامي
                   </p>
                   <div className="ltr-content w-full">
-                    <p className="text-5xl md:text-6xl font-bold leading-tight text-slate-950 dark:text-white">
+                    <p className="text-4xl md:text-6xl font-bold leading-tight text-slate-950 dark:text-white">
                       {activeTerm.term}
                     </p>
-                    <p className="mt-12 text-base font-medium text-amber-600 dark:text-amber-500 flex items-center justify-center gap-2">
+                    <p className="mt-8 md:mt-12 text-sm md:text-base font-medium text-amber-600 dark:text-amber-500 flex flex-col md:flex-row items-center justify-center gap-2">
                       <Sparkles size={18} />
                       اضغط أو استخدم <kbd className="font-sans px-2 py-1 rounded bg-amber-100 dark:bg-amber-900/50 ml-1 text-sm">Space</kbd> لإظهار المعنى
                     </p>
@@ -262,15 +262,15 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
                 </div>
 
                 {/* Back Face */}
-                <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col items-center justify-center rounded-2xl border border-amber-200 dark:border-amber-900/50 bg-[#FAFAFA] dark:bg-[#111111] px-12 py-16 text-center shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+                <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col items-center justify-center rounded-2xl border border-amber-200 dark:border-amber-900/50 bg-[#FAFAFA] dark:bg-[#111111] px-6 md:px-12 py-12 md:py-16 text-center shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
                   <p className="absolute top-6 left-1/2 -translate-x-1/2 text-sm font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest font-sans">
                     الوجه الخلفي
                   </p>
                   <div className="w-full">
-                    <p className="text-4xl md:text-5xl font-bold leading-relaxed text-slate-950 dark:text-white">
+                    <p className="text-3xl md:text-5xl font-bold leading-relaxed text-slate-950 dark:text-white">
                       {activeTerm.translation}
                     </p>
-                    <p className="mx-auto mt-8 max-w-3xl text-xl leading-9 text-slate-600 dark:text-slate-400">
+                    <p className="mx-auto mt-6 md:mt-8 max-w-3xl text-lg md:text-xl leading-8 md:leading-9 text-slate-600 dark:text-slate-400">
                       {activeTerm.definition}
                     </p>
                   </div>
@@ -279,7 +279,7 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
             </div>
           </div>
 
-          <div className="mx-auto grid max-w-4xl w-full grid-cols-4 gap-4 mt-6">
+          <div className="mx-auto grid max-w-4xl w-full grid-cols-2 md:grid-cols-4 gap-4 mt-6">
             {[
               ["again", "مرة أخرى", "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-900/50 hover:bg-rose-100 dark:hover:bg-rose-900/60", "1"],
               ["hard", "صعب", "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-900/50 hover:bg-amber-100 dark:hover:bg-amber-900/60", "2"],
