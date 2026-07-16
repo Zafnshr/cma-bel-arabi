@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Almarai } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { AppShell } from "@/components/layout/AppShell";
+import { Providers } from "@/app/providers";
 import "./globals.css";
 
 const almarai = Almarai({
@@ -29,11 +30,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased font-almarai bg-[#FDFDFD] dark:bg-[#0A0A0A]" suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <AppShell>
-            {children}
-          </AppShell>
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <AppShell>
+              {children}
+            </AppShell>
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

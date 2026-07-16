@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useSession, signOut } from "next-auth/react";
 import {
   BookOpenText,
   ClipboardCheck,
@@ -17,6 +18,7 @@ import {
   Sun,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
 import { cx } from "@/lib/utils";
 import { GlobalWisdomWidget } from "./GlobalWisdomWidget";
@@ -60,6 +62,7 @@ const navigation = [
 
 export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -83,6 +86,15 @@ export function AppShell({ children }: AppShellProps) {
     setIsSidebarCollapsed(newState);
     localStorage.setItem("isSidebarCollapsed", String(newState));
   };
+
+  // Do not render AppShell shell structure on the login page
+  if (pathname === "/login") {
+    return (
+      <div className="min-h-screen w-full bg-black">
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen bg-background text-foreground [direction:rtl] transition-colors duration-300 relative overflow-hidden z-0">
@@ -265,6 +277,31 @@ export function AppShell({ children }: AppShellProps) {
                     <Moon size={18} className={cx("transition-transform duration-500 shrink-0", theme === "dark" && "-rotate-12 scale-110")} />
                     <span className={cx("text-xs font-bold font-sans w-8 text-right", isSidebarCollapsed && "md:hidden")}>داكن</span>
                   </div>
+                </button>
+              </div>
+            )}
+
+            {/* User Session Info & Logout */}
+            {status === "authenticated" && session?.user?.email && (
+              <div className="mt-2 border-t border-slate-200 dark:border-slate-800 pt-4 flex flex-col gap-2">
+                <div className={cx("text-center truncate", isSidebarCollapsed ? "md:hidden" : "")}>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500 font-sans truncate px-1" title={session.user.email}>
+                    {session.user.email}
+                  </p>
+                </div>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  className={cx(
+                    "flex items-center gap-3 rounded-2xl border border-transparent py-2.5 px-3 transition-all",
+                    "text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/25 hover:border-red-100 dark:hover:border-red-900/30",
+                    isSidebarCollapsed && "md:justify-center md:px-0"
+                  )}
+                  title="تسجيل الخروج"
+                >
+                  <LogOut size={18} className="shrink-0" />
+                  <span className={cx("text-sm font-bold", isSidebarCollapsed && "md:hidden")}>
+                    تسجيل الخروج
+                  </span>
                 </button>
               </div>
             )}
