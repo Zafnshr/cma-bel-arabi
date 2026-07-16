@@ -347,10 +347,10 @@ export function PdfReadingWorkspace({
   // RENDER
   // ─────────────────────────────────────────────────────────────
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#F9F6F0]" dir="ltr">
+    <div className="flex h-[calc(100vh-180px)] min-h-[600px] w-full overflow-hidden bg-[#F9F6F0] dark:bg-[#0A0A0A] rounded-2xl md:rounded-[2rem] border border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_40px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_40px_rgb(0,0,0,0.4)] ring-4 ring-white/50 dark:ring-slate-900/50" dir="ltr">
 
       {/* LEFT COLUMN: PDF Viewer — scrolls independently */}
-      <div className="flex-1 h-full relative flex flex-col min-w-0 bg-[#F9F6F0]">
+      <div className="flex-1 h-full relative flex flex-col min-w-0 bg-transparent">
         
         {/* Floating Back Button */}
         <div className="absolute top-4 right-4 z-20" dir="rtl">
@@ -390,13 +390,22 @@ export function PdfReadingWorkspace({
         {/* 1. THE SCROLL VIEWPORT */}
         <div
           ref={pdfColumnRef}
-          className="flex-1 overflow-auto bg-slate-100 dark:bg-slate-900/50 p-4 relative flex justify-center items-start"
+          className="flex-1 overflow-auto bg-slate-50 dark:bg-[#0A0A0A] p-4 relative flex justify-center items-start"
           dir="ltr"
           onMouseMove={handleTextLayerMouseMove}
           onMouseLeave={handleTextLayerMouseLeave}
         >
+          {/* Elegant Dot Pattern Background */}
+          <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] dark:bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-40 dark:opacity-40" />
+          
           {/* 2. THE ISOLATED CANVAS WRAPPER */}
-          <div className="inline-block shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-black/20 bg-white dark:bg-slate-950 transition-transform duration-200">
+          {/* We must use z-0 or isolate so the -z-10 child doesn't go behind the scrolling container's background */}
+          <div className="inline-block relative transition-transform duration-200 mt-8 md:mt-12 mb-24 max-w-full z-10">
+            {/* Decorative Outer Frame */}
+            <div className="absolute inset-0 bg-slate-200/50 dark:bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_20px_40px_rgba(0,0,0,0.3)] -m-3 md:-m-4 -z-10 pointer-events-none" />
+            
+            {/* Inner Content Container */}
+            <div className="rounded-xl overflow-hidden border-4 border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-950 shadow-inner">
             <Document
               key={selectedUnit.fileName}
               file={`/material/${selectedUnit.fileName}`}
@@ -412,6 +421,7 @@ export function PdfReadingWorkspace({
                 onRenderSuccess={handlePageRenderSuccess}
               />
             </Document>
+            </div>
           </div>
         </div>
       </div>
@@ -419,7 +429,7 @@ export function PdfReadingWorkspace({
       {/* RIGHT COLUMN: Assist Panel — rigid, locked, no scroll needed */}
       {isPanelOpen && (
         <aside
-          className="w-[400px] h-full flex flex-col shrink-0 bg-white border-l border-slate-200 shadow-[-10px_0_20px_rgba(0,0,0,0.03)] z-10"
+          className="w-[400px] h-full flex flex-col shrink-0 bg-white/95 dark:bg-[#111111]/95 backdrop-blur-md border-l border-slate-200 dark:border-slate-800 shadow-[-10px_0_20px_rgba(0,0,0,0.03)] dark:shadow-[-10px_0_20px_rgba(0,0,0,0.3)] z-10"
           dir="rtl"
         >
           <LearningAssistPanel
