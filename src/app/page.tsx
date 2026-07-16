@@ -8,6 +8,6 @@ export default async function RootPage() {
   if (!session) {
     redirect("/login");
   } else {
-    redirect("/curriculum");
+    redirect("/dashboard");
   }
 }
