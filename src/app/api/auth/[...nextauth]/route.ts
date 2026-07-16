@@ -53,13 +53,14 @@ export const authOptions: NextAuthOptions = {
 };
 
 const handler = (req: any, ctx: any) => {
-  // Dynamically set NEXTAUTH_URL to the exact host being requested
-  // This prevents CSRF and URL mismatch errors on Vercel custom domains
-  const host = req.headers.get("host") || "localhost:3000";
-  const protocol = req.headers.get("x-forwarded-proto") || "http";
-  process.env.NEXTAUTH_URL = `${protocol}://${host}`;
+  // Only override NEXTAUTH_URL for local development (to allow LAN IP testing).
+  // On Vercel, let NextAuth use its native Vercel integration!
+  if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
+    const host = req.headers.get("host") || "localhost:3000";
+    const protocol = req.headers.get("x-forwarded-proto") || "http";
+    process.env.NEXTAUTH_URL = `${protocol}://${host}`;
+  }
   
-  // Initialize NextAuth inside the handler so it captures the updated NEXTAUTH_URL
   const authHandler = NextAuth(authOptions);
   return authHandler(req, ctx);
 };
