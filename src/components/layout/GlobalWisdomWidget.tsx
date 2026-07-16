@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 
 export function GlobalWisdomWidget() {
   const [mounted, setMounted] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(true);
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(true);
   const pathname = usePathname();
