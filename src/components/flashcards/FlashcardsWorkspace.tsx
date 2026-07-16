@@ -238,7 +238,7 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
             <div className="w-full mx-auto perspective-1000 h-[380px] md:h-[480px]">
               <button
                 type="button"
-                onClick={() => !isRevealed && setIsRevealed(true)}
+                onClick={() => setIsRevealed((prev) => !prev)}
                 className={cx(
                   "relative w-full h-full transition-transform duration-500 preserve-3d cursor-pointer focus:outline-none",
                   isRevealed && "rotate-y-180"
