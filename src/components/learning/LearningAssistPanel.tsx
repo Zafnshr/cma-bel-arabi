@@ -1,7 +1,9 @@
 "use client";
 
-import { Languages, PanelRight, Sparkles, BookOpen } from "lucide-react";
+import { Languages, PanelRight, Sparkles, BookOpen, Volume2 } from "lucide-react";
 import type { ContentSource, ReadingSentence, Term } from "@/lib/content/types";
+import { useTTS } from "@/hooks/useTTS";
+import { cx } from "@/lib/utils";
 
 export type StructuredSentenceKeyword = {
   en: string;
@@ -108,9 +110,39 @@ export function LearningAssistPanel({
   );
 }
 
+/* ─── HIGHLIGHTED TEXT ─── */
+function HighlightedText({ text, range, speak }: { text: string; range: [number, number] | null; speak: (t: string) => void }) {
+  const handleDoubleClick = () => {
+    const selection = window.getSelection();
+    const selectedText = selection?.toString().trim();
+    if (selectedText) {
+      speak(selectedText);
+    }
+  };
+
+  if (!range) return <span onDoubleClick={handleDoubleClick} title="انقر مرتين لسماع أي كلمة" className="cursor-text">{text}</span>;
+  const [start, end] = range;
+  
+  const safeStart = Math.max(0, start);
+  const safeEnd = Math.min(text.length, end);
+  
+  if (safeStart >= safeEnd) return <span onDoubleClick={handleDoubleClick} title="انقر مرتين لسماع أي كلمة" className="cursor-text">{text}</span>;
+
+  return (
+    <span onDoubleClick={handleDoubleClick} title="انقر مرتين لسماع أي كلمة" className="cursor-text">
+      {text.slice(0, safeStart)}
+      <span className="bg-amber-200 dark:bg-amber-900/60 text-amber-950 dark:text-amber-100 rounded px-0.5 py-0.5 transition-colors duration-100">
+        {text.slice(safeStart, safeEnd)}
+      </span>
+      {text.slice(safeEnd)}
+    </span>
+  );
+}
+
 /* ─── FULL SENTENCE PANEL (PRIMARY) ─── */
 function FullSentencePanel({ payload }: { payload: FullSentencePayload }) {
   const keywordPairs = parseKeywordPairs(payload.keywords);
+  const { speak, isSpeaking, activeWordRange } = useTTS();
 
   return (
     <div className="flex flex-col h-full p-6 justify-start gap-6">
@@ -119,9 +151,24 @@ function FullSentencePanel({ payload }: { payload: FullSentencePayload }) {
         <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700/60 dark:text-amber-500/80 mb-2">
           الجملة الإنجليزية النشطة
         </p>
-        <p dir="ltr" className="text-sm text-slate-500 dark:text-slate-400 font-medium italic border-b border-slate-100 dark:border-slate-800/50 pb-4 leading-relaxed">
-          {payload.englishSentence}
-        </p>
+        <div className="flex items-start justify-between gap-4 border-b border-slate-100 dark:border-slate-800/50 pb-4">
+          <p dir="ltr" className="text-sm text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">
+            <HighlightedText text={payload.englishSentence} range={activeWordRange} speak={speak} />
+          </p>
+          <button
+            type="button"
+            onClick={() => speak(payload.englishSentence)}
+            className={cx(
+              "p-2 rounded-full transition-all shrink-0",
+              isSpeaking
+                ? "bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 animate-pulse shadow-sm"
+                : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300"
+            )}
+            title="Listen to pronunciation"
+          >
+            <Volume2 size={16} />
+          </button>
+        </div>
       </div>
 
       {/* Arabic Translation — scaled down, bold */}
@@ -164,13 +211,30 @@ function SentencePanel({
   sentence: ReadingSentence;
   terms: Term[];
 }) {
+  const { speak, isSpeaking, activeWordRange } = useTTS();
+
   return (
     <div className="flex flex-col h-full p-6 justify-start gap-6">
       <div>
         <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700/60 dark:text-amber-500/80 mb-2">الجملة النشطة</p>
-        <p dir="ltr" className="text-sm text-slate-500 dark:text-slate-400 font-medium italic border-b border-slate-100 dark:border-slate-800/50 pb-4 leading-relaxed">
-          {sentence.text}
-        </p>
+        <div className="flex items-start justify-between gap-4 border-b border-slate-100 dark:border-slate-800/50 pb-4">
+          <p dir="ltr" className="text-sm text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">
+            <HighlightedText text={sentence.text} range={activeWordRange} speak={speak} />
+          </p>
+          <button
+            type="button"
+            onClick={() => speak(sentence.text)}
+            className={cx(
+              "p-2 rounded-full transition-all shrink-0",
+              isSpeaking
+                ? "bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 animate-pulse shadow-sm"
+                : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300"
+            )}
+            title="Listen to pronunciation"
+          >
+            <Volume2 size={16} />
+          </button>
+        </div>
       </div>
       <div>
         <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700/60 dark:text-amber-500/80 mb-2">الترجمة العربية</p>
@@ -194,13 +258,30 @@ function SentencePanel({
 
 /* ─── TERM PANEL ─── */
 function TermPanel({ term }: { term: Term }) {
+  const { speak, isSpeaking, activeWordRange } = useTTS();
+
   return (
     <div className="flex flex-col h-full p-6 justify-start gap-6">
       <div>
         <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700/60 dark:text-amber-500/80 mb-2">المصطلح النشط</p>
-        <p dir="ltr" className="text-sm text-slate-500 dark:text-slate-400 font-medium italic border-b border-slate-100 dark:border-slate-800/50 pb-4 leading-relaxed">
-          {term.term}
-        </p>
+        <div className="flex items-start justify-between gap-4 border-b border-slate-100 dark:border-slate-800/50 pb-4">
+          <p dir="ltr" className="text-sm text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">
+            <HighlightedText text={term.term} range={activeWordRange} speak={speak} />
+          </p>
+          <button
+            type="button"
+            onClick={() => speak(term.term)}
+            className={cx(
+              "p-2 rounded-full transition-all shrink-0",
+              isSpeaking
+                ? "bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 animate-pulse shadow-sm"
+                : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300"
+            )}
+            title="Listen to pronunciation"
+          >
+            <Volume2 size={16} />
+          </button>
+        </div>
       </div>
       <div>
         <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700/60 dark:text-amber-500/80 mb-2">الترجمة العربية</p>
@@ -220,13 +301,30 @@ function TermPanel({ term }: { term: Term }) {
 
 /* ─── STRUCTURED SENTENCE PANEL ─── */
 function StructuredSentencePanel({ sentence }: { sentence: StructuredSentence }) {
+  const { speak, isSpeaking, activeWordRange } = useTTS();
+
   return (
     <div className="flex flex-col h-full p-6 justify-start gap-6">
       <div>
         <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700/60 dark:text-amber-500/80 mb-2">الجملة النشطة</p>
-        <p dir="ltr" className="text-sm text-slate-500 dark:text-slate-400 font-medium italic border-b border-slate-100 dark:border-slate-800/50 pb-4 leading-relaxed">
-          {sentence.english_text}
-        </p>
+        <div className="flex items-start justify-between gap-4 border-b border-slate-100 dark:border-slate-800/50 pb-4">
+          <p dir="ltr" className="text-sm text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">
+            <HighlightedText text={sentence.english_text} range={activeWordRange} speak={speak} />
+          </p>
+          <button
+            type="button"
+            onClick={() => speak(sentence.english_text)}
+            className={cx(
+              "p-2 rounded-full transition-all shrink-0",
+              isSpeaking
+                ? "bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 animate-pulse shadow-sm"
+                : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300"
+            )}
+            title="Listen to pronunciation"
+          >
+            <Volume2 size={16} />
+          </button>
+        </div>
       </div>
       <div>
         <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700/60 dark:text-amber-500/80 mb-2">الترجمة العربية</p>
@@ -257,7 +355,7 @@ function EmptyPanel() {
       </div>
       <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">المساعدة السياقية جاهزة</h3>
       <p className="mt-2 max-w-[240px] text-xs leading-5 text-slate-400 dark:text-slate-500">
-        مرّر الماوس فوق أي جملة في النص الإنجليزي لتظهر الترجمة الفورية والمصطلحات.
+        مرّر الماوس فوق أي جملة في النص الإنجليزي لتظهر الترجمة الفورية والمصطلحات. يمكنك النقر مرتين على أي كلمة لسماعها.
       </p>
       <Sparkles className="mt-4 text-amber-400 animate-pulse" size={18} />
     </div>

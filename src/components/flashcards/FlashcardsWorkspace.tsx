@@ -3,11 +3,12 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { RotateCcw, Sparkles, ArrowRight, BookOpen, Layers } from "lucide-react";
+import { RotateCcw, Sparkles, ArrowRight, BookOpen, Layers, Volume2 } from "lucide-react";
 import type { ContentSource, Term } from "@/lib/content/types";
 import { cx } from "@/lib/utils";
 import { FLASHCARD_INDEX } from "@/config/flashcardIndex";
 import { COURSE_MAP } from "@/config/courseMap";
+import { useTTS } from "@/hooks/useTTS";
 
 type FlashcardsWorkspaceProps = {
   terms: Term[];
@@ -54,6 +55,7 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
   const reviewState = activeTerm
     ? states[activeTerm.id] ?? starterState
     : starterState;
+  const { speak, isSpeaking } = useTTS();
 
   const gradeCard = useCallback((quality: "again" | "hard" | "good" | "easy") => {
     if (!activeTerm) {
@@ -236,8 +238,15 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
 
           <div className="flex-1 flex flex-col justify-center py-6 relative">
             <div className="w-full mx-auto perspective-1000 h-[380px] md:h-[480px]">
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setIsRevealed((prev) => !prev);
+                  }
+                }}
                 onClick={() => setIsRevealed((prev) => !prev)}
                 className={cx(
                   "relative w-full h-full transition-transform duration-500 preserve-3d cursor-pointer focus:outline-none",
@@ -251,9 +260,27 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
                     الوجه الأمامي
                   </p>
                   <div className="ltr-content w-full">
-                    <p className="text-4xl md:text-6xl font-bold leading-tight text-slate-950 dark:text-white">
-                      {activeTerm.term}
-                    </p>
+                    <div className="flex items-center justify-center gap-4">
+                      <p className="text-4xl md:text-6xl font-bold leading-tight text-slate-950 dark:text-white">
+                        {activeTerm.term}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          speak(activeTerm.term);
+                        }}
+                        className={cx(
+                          "p-3 rounded-full transition-all shrink-0",
+                          isSpeaking
+                            ? "bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 animate-pulse shadow-sm"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-300"
+                        )}
+                        aria-label="Listen to pronunciation"
+                      >
+                        <Volume2 size={32} />
+                      </button>
+                    </div>
                     <p className="mt-8 md:mt-12 text-sm md:text-base font-medium text-amber-600 dark:text-amber-500 flex flex-col md:flex-row items-center justify-center gap-2">
                       <Sparkles size={18} />
                       اضغط أو استخدم <kbd className="font-sans px-2 py-1 rounded bg-amber-100 dark:bg-amber-900/50 ml-1 text-sm">Space</kbd> لإظهار المعنى
@@ -275,7 +302,7 @@ export function FlashcardsWorkspace({ terms, source }: FlashcardsWorkspaceProps)
                     </p>
                   </div>
                 </div>
-              </button>
+              </div>
             </div>
           </div>
 

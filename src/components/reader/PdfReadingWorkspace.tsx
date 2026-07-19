@@ -207,6 +207,24 @@ export function PdfReadingWorkspace({
   const activeSentenceIdRef = useRef<string | null>(null);
 
   const pdfColumnRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const container = pdfColumnRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const [zoomLevel, setZoomLevel] = useState(1.0);
   const [bookmarkedPage, setBookmarkedPage] = useState<number | null>(null);
@@ -415,6 +433,7 @@ export function PdfReadingWorkspace({
               <Page
                 pageNumber={activePageNumber}
                 scale={zoomLevel} /* MUST BE NATIVE PROP, NOT CSS */
+                width={containerWidth ? Math.max(containerWidth - 64, 300) : undefined}
                 renderTextLayer={true}
                 renderAnnotationLayer={false}
                 className="max-w-none" /* CRITICAL: Prevents Tailwind from squishing the canvas */
